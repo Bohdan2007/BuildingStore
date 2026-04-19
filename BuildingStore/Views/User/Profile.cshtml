@@ -1,0 +1,61 @@
+﻿<!DOCTYPE html>
+<html lang="ua">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Мій кабінет - Z-Build</title>
+        <link rel="stylesheet" href="~/css/profile.css" asp-append-version="true" />
+    </head>
+    <body>
+
+        <div class="profile-container">
+
+            <header class="profile-header">
+                <h1 class="title">Мій кабінет</h1>
+                <a href="/Authorization/SignIn" class="btn-exit">Вийти</a>
+            </header>
+
+            <main class="profile-content">
+
+                <section class="user-info-card">
+                    <div class="user-avatar">👤</div>
+                    <div class="user-details">
+                        <div class="user-name">Іван Іванов</div>
+                        <div class="user-email">ivanov@email.com</div>
+                    </div>
+                </section>
+
+                <section class="orders-section">
+                    <h2 class="section-title">Історія замовлень</h2>
+
+                    <div class="orders-list">
+                        <div class="order-item">
+                            <div class="order-main">
+                                <span class="order-date">18.04.2026</span>
+                                <span class="order-status">Виконано</span>
+                            </div>
+                            <div class="order-info">
+                                <span class="order-name">Професійний перфоратор Z-100</span>
+                                <span class="order-price">4 500 ₴</span>
+                            </div>
+                        </div>
+
+                        <div class="order-item">
+                            <div class="order-main">
+                                <span class="order-date">12.03.2026</span>
+                                <span class="order-status">Виконано</span>
+                            </div>
+                            <div class="order-info">
+                                <span class="order-name">Цемент М500 (25кг) x 4</span>
+                                <span class="order-price">1 200 ₴</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+
+        </div>
+
+    </body>
+</html>

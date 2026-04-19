@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html lang="ua">
+    <head>
+        <meta charset="UTF-8">
+        <title>Z-Build - Каталог товарів</title>
+        <link rel="stylesheet" href="~/css/products.css" asp-append-version="true" />
+    </head>
+    <body>
+        <header>
+            <p class="logo">Z-Build</p>
+            <div class="search-bar">
+                <input type="text" placeholder="Шукайте товар">
+            </div>
+            <div class="header-icons">
+                <a href="/Authorization/Authorization">Увійти</a>
+                <a href="/Basket/Basket">Кошик</a>
+            </div>
+        </header>
+        <main>
+            <aside class="sidebar">
+                <h3>Категорії</h3>
+                <a href="/Products/Products" class="category-link">Інструменти та обладнання</a>
+                <a href="/Products/Products" class="category-link">Сухі суміші</a>
+                <a href="/Products/Products" class="category-link">Покрівля</a>
+                <a href="/Products/Products" class="category-link">Електрика</a>
+                <a href="/Products/Products" class="category-link">Сантехніка</a>
+            </aside>
+            <div class="products-grid">
+
+                <div class="product-card">
+                    <div class="product-image-placeholder">Фото: Перфоратор</div>
+                    <a href="/Products/Product" class="product-title">Перфоратор Bosch GBH 2-26 DRE</a>
+                    <div class="product-rating">★★★☆☆ (42 відгуки)</div>
+                    <div class="product-price">4 500 ₴</div>
+                    <button class="btn-buy">Додати до кошика</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image-placeholder">Фото: Цемент</div>
+                    <a href="/Products/Product" class="product-title">Цемент М500 ПЦ I-500 (50 кг)</a>
+                    <div class="product-rating">★★★☆☆ (18 відгуків)</div>
+                    <div class="product-price">180 ₴</div>
+                    <button class="btn-buy">Додати до кошика</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image-placeholder">Фото: Рулетка</div>
+                    <a href="/Products/Product" class="product-title">Рулетка вимірювальна 5м</a>
+                    <div class="product-rating">★★★☆☆ (5 відгуків)</div>
+                    <div class="product-price">120 ₴</div>
+                    <button class="btn-buy">Додати до кошика</button>
+                </div>
+
+                <div class="product-card">
+                    <div class="product-image-placeholder">Фото: Ламінат</div>
+                    <a href="/Products/Product" class="product-title">Ламінат дуб класичний 32 клас</a>
+                    <div class="product-rating"> ★★★☆☆ (11 відгуків)</div>
+                    <div class="product-price">450 ₴</div>
+                    <button class="btn-buy">Додати до кошика</button>
+                </div>
+
+            </div>
+        </main>
+    </body>
+</html>

@@ -1,0 +1,89 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background-color: #f4f7f6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.success-container {
+    width: 90%;
+    max-width: 40vw;
+    display: flex;
+    justify-content: center;
+}
+
+.success-card {
+    background-color: #ffffff;
+    padding: 8vh 4vw;
+    border-radius: 1.5vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 4vh;
+}
+
+.success-icon {
+    width: 8vw;
+    height: 8vw;
+    background-color: #00a046;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.checkmark {
+    color: white;
+    font-size: 4vw;
+    font-weight: bold;
+}
+
+.success-title {
+    font-size: 2.2vw;
+    font-weight: bold;
+    color: #212121;
+}
+
+.success-text {
+    font-size: 1.1vw;
+    color: #666;
+    line-height: 1.5;
+}
+
+.order-details {
+    font-size: 1.2vw;
+    color: #212121;
+    display: flex;
+    gap: 0.5vw;
+}
+
+.order-number {
+    font-weight: bold;
+    color: #00a046;
+}
+
+.btn-home {
+    background-color: #00a046;
+    color: white;
+    border: none;
+    border-radius: 0.6vw;
+    padding: 2vh 3vw;
+    font-size: 1.2vw;
+    font-weight: bold;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-home:hover {
+    background-color: #008a3c;
+}

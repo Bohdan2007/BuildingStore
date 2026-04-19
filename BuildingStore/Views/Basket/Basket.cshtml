@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html lang="ua">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Кошик - Z-Build</title>
+        <link rel="stylesheet" href="~/css/basket.css" asp-append-version="true" />
+    </head>
+    <body>
+
+        <div class="cart-container">
+
+            <header class="header">
+                <a href="/Products/Products" class="btn-back"> Продовжити покупки</a>
+                <h1 class="label-text">Кошик</h1>
+            </header>
+
+            <main class="cart-content">
+
+                <div class="cart-items">
+                    <div class="cart-item">
+                        <div class="item-image">Фото</div>
+                        <div class="item-info">
+                            <div class="item-name">Професійний перфоратор Z-100</div>
+                            <div class="item-details">Код: 12345</div>
+                        </div>
+                        <div class="item-quantity">
+                            <button class="qty-btn">-</button>
+                            <span>1</span>
+                            <button class="qty-btn">+</button>
+                        </div>
+                        <div class="item-price">4 500 ₴</div>
+                        <button class="btn-remove">✕</button>
+                    </div>
+                </div>
+
+                <aside class="cart-summary">
+                    <div class="summary-title">Разом до сплати</div>
+                    <div class="summary-row">
+                        <span>Товари (1)</span>
+                        <span>4 500 ₴</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Підсумок</span>
+                        <span class="total-price">4 500 ₴</span>
+                    </div>
+                    <a href="/Basket/Payment" class="btn-checkout">Оформити замовлення</a>
+                </aside>
+
+            </main>
+        </div>
+
+    </body>
+</html>

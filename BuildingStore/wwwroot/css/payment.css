@@ -1,0 +1,127 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background-color: #f4f7f6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.payment-container {
+    width: 90%;
+    max-width: 35vw;
+    background-color: #ffffff;
+    padding: 4vh 4vw;
+    border-radius: 1vw;
+    display: flex;
+    justify-content: center;
+}
+
+.payment-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 3vh;
+}
+
+.payment-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+}
+
+.label-text {
+    font-size: 1.6vw;
+    font-weight: bold;
+    color: #212121;
+}
+
+.total-price {
+    font-size: 1.4vw;
+    color: #f84147;
+    font-weight: bold;
+    padding-bottom: 2vh;
+    border-bottom: 0.15vw solid #e0e0e0;
+}
+
+.error-message {
+    background-color: #fee2e2;
+    color: #dc2626;
+    padding: 2vh 1.5vw;
+    border-radius: 0.6vw;
+    font-size: 1vw;
+    font-weight: 600;
+    text-align: center;
+    border: 0.15vw solid #fca5a5;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+}
+
+.row-inputs {
+    display: flex;
+    gap: 2vw;
+    width: 100%;
+}
+
+.row-inputs .input-group {
+    flex: 1;
+}
+
+label {
+    font-size: 1.1vw;
+    font-weight: 600;
+    color: #212121;
+}
+
+input {
+    padding: 2vh 1.5vw;
+    background-color: #f8f9fa;
+    border: 0.15vw solid #e0e0e0;
+    border-radius: 0.6vw;
+    font-size: 1.1vw;
+    outline: none;
+}
+
+input:focus {
+    border-color: #00a046;
+}
+
+.btn-pay {
+    background-color: #00a046;
+    color: white;
+    border: none;
+    border-radius: 0.6vw;
+    padding: 2.5vh 0;
+    font-size: 1.3vw;
+    font-weight: bold;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.btn-pay:hover {
+    background-color: #008a3c;
+}
+
+.btn-back {
+    color: #666;
+    font-size: 1.2vw;
+    font-weight: bold;
+    text-decoration: none;
+    align-self: flex-end; 
+}
+
+.btn-back:hover {
+    color: #f84147;
+}

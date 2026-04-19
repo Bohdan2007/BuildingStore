@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="ua">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Панель Адміна - Z-Build</title>
+        <link rel="stylesheet" href="~/css/adminProfile.css" asp-append-version="true" />
+    </head>
+    <body>
+
+        <div class="admin-container">
+
+            <header class="admin-header">
+                <h1 class="title">Панель адміністратора</h1>
+                <a href="/Authorization/SignIn" class="btn-exit">Вийти</a>
+            </header>
+
+            <main class="admin-content">
+
+                <section class="user-info-card">
+                    <div class="user-avatar">⚙️</div>
+                    <div class="user-details">
+                        <div class="user-name">Адміністратор: Іван Іванов</div>
+                        <div class="user-email">admin@zbuild.com</div>
+                    </div>
+                </section>
+
+                <section class="management-section">
+                    <h2 class="section-title">Управління магазином</h2>
+
+                    <div class="management-grid">
+                        <a href="/Products/AddProduct" class="management-card add-card">
+                            <div class="card-icon">+</div>
+                            <div class="card-text">Додати новий товар</div>
+                        </a>
+
+                        <a href="/Products/DeleteProduct" class="management-card delete-card">
+                            <div class="card-icon">−</div>
+                            <div class="card-text">Видалити товар</div>
+                        </a>
+                    </div>
+                </section>
+
+                <section class="orders-section">
+                    <h2 class="section-title">Нові заявки</h2>
+
+                    <div class="orders-list">
+
+                        <div class="order-card">
+                            <div class="order-info">
+                                <div class="order-title">Замовлення №1042</div>
+                            <div class="order-details">Клієнт: Петро Михайленко • 2 товари. Поштомат №5095</div>
+                                <div class="order-price">8 500 ₴</div>
+                            </div>
+                            <button class="btn-complete">✔ Виконано</button>
+                        </div>
+
+                        <div class="order-card">
+                            <div class="order-info">
+                                <div class="order-title">Замовлення №1043</div>
+                                <div class="order-details">Клієнт: Олена Коваленко • 1 товар. Поштомат №5095 </div>
+                                <div class="order-price">3 200 ₴</div>
+                            </div>
+                            <button class="btn-complete">✔ Виконано</button>
+                        </div>
+
+                    </div>
+                </section>
+
+            </main>
+        </div>
+
+    </body>
+</html>

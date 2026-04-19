@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html lang="ua">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Z-Build - Картка товару</title>
+        <link rel="stylesheet" href="~/css/product.css" asp-append-version="true" />
+    </head>
+    <body>
+
+        <div class="product-container">
+
+            <header class="header">
+                <a href="/Products/Products" class="btn-back">До каталогу</a>
+            </header>
+
+            <main class="product-card">
+
+                <div class="top-section">
+                    <div class="left-column">
+                        <div class="image-placeholder">
+                            Фото товару
+                        </div>
+
+                        <div class="rating-section">
+                            <div class="stars">
+                                <span class="star active">★</span>
+                                <span class="star active">★</span>
+                                <span class="star active">★</span>
+                                <span class="star active">☆</span>
+                                <span class="star">☆</span>
+                            </div>
+                            <span class="rating-text">4.0 (12 відгуків)</span>
+                        </div>
+                    </div>
+
+                    <div class="right-column">
+                        <div class="description-block">
+                            <div class="label-text">Опис товару</div>
+                            <p class="description-text">
+                                Це детальний опис вашого товару. Тут ви можете розповісти про його характеристики, переваги та особливості використання. Відмінний вибір для професійних будівельників та домашнього ремонту.
+                            </p>
+
+                            <div class="price-block">
+                                <div class="price">4 500 ₴</div>
+                                <button class="btn-buy">Додати до кошика</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bottom-section">
+                    <div class="label-text">Коментарі</div>
+
+                    <div class="comments-list">
+                        <div class="comment">
+                            <span class="comment-author">Іван:</span>
+                            Відмінна якість, швидка доставка! Дуже задоволений покупкою.
+                        </div>
+                        <div class="comment">
+                            <span class="comment-author">Олексій:</span>
+                            Брав для ремонту квартири, працює без нарікань.
+                        </div>
+                    </div>
+
+                    <div class="add-comment-block">
+                        <input type="text" placeholder="Напишіть свій відгук..." spellcheck="false" />
+                        <button class="btn-submit">Надіслати</button>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+
+    </body>
+</html>

@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html lang="ua">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Реєстрація - Z-Build</title>
+        <link rel="stylesheet" href="~/css/signUp.css" asp-append-version="true" />
+    </head>
+    <body>
+
+        <div class="registration-container">
+            <div class="registration-form">
+
+                <div class="error-message">
+                    Будь ласка, заповніть усі поля коректно.
+                </div>
+
+                <div class="input-group">
+                    <label>Придумайте і введіть ПІБ</label>
+                    <input type="text" spellcheck="false" />
+                </div>
+
+                <div class="input-group">
+                    <label>Введіть ваш Email</label>
+                    <input type="email" spellcheck="false" />
+                </div>
+
+                <div class="input-group">
+                    <label>Придумайте і введіть пароль</label>
+                    <input type="password" />
+                </div>
+
+                <div class="input-group">
+                    <label>Повторіть пароль</label>
+                    <input type="password" />
+                </div>
+
+                <a href="/User/AdminProfile" class="btn-register">Зареєструватися</a>
+
+                <a href="/Products/Products" class="btn-back">Повернутися до каталогу</a>
+
+            </div>
+        </div>
+
+    </body>
+</html>

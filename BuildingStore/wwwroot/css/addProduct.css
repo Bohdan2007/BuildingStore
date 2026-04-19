@@ -1,0 +1,151 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background-color: #f4f7f6;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.admin-container {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    max-width: 50vw;
+    padding: 6vh 0;
+    gap: 3vh;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5vh;
+}
+
+.btn-back {
+    color: #666;
+    font-size: 1.2vw;
+    text-decoration: none;
+    font-weight: bold;
+    align-self: flex-end;
+}
+
+.btn-back:hover {
+    color: #00a046;
+}
+
+.title {
+    font-size: 2vw;
+    font-weight: bold;
+    color: #212121;
+}
+
+.form-card {
+    background-color: #ffffff;
+    padding: 5vh 4vw;
+    border-radius: 1vw;
+}
+
+.product-form {
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+}
+
+.row-inputs {
+    display: flex;
+    gap: 2vw;
+}
+
+.row-inputs .input-group {
+    flex: 1;
+}
+
+label {
+    font-size: 1.1vw;
+    font-weight: 600;
+    color: #212121;
+}
+
+input, textarea, select {
+    padding: 2vh 1.5vw;
+    background-color: #f8f9fa;
+    border: 0.15vw solid #e0e0e0;
+    border-radius: 0.6vw;
+    font-size: 1.1vw;
+    outline: none;
+    font-family: inherit;
+}
+
+input:focus, textarea:focus, select:focus {
+    border-color: #00a046;
+}
+
+.price-input {
+    color: #f84147;
+    font-weight: bold;
+}
+
+.textarea {
+    resize: none;
+}
+
+.hidden-input {
+    display: none; 
+}
+
+.custom-file-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5vh;
+    padding: 4vh 0;
+    background-color: #f8f9fa;
+    border: 0.15vw dashed #e0e0e0;
+    border-radius: 0.8vw;
+    cursor: pointer;
+}
+
+.custom-file-upload:hover {
+    background-color: #f0fdf4;
+    border-color: #00a046;
+}
+
+.upload-icon {
+    font-size: 2vw;
+}
+
+.upload-text {
+    font-size: 1vw;
+    color: #666;
+}
+
+.custom-file-upload:hover .upload-text {
+    color: #00a046;
+}
+
+.btn-save {
+    background-color: #00a046;
+    color: white;
+    border: none;
+    border-radius: 0.6vw;
+    padding: 2.5vh 0;
+    font-size: 1.3vw;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-save:hover {
+    background-color: #008a3c;
+}

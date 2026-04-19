@@ -1,0 +1,169 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background-color: #f4f7f6;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.admin-container {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    max-width: 55vw;
+    padding: 6vh 0;
+    gap: 3vh;
+}
+
+.header {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5vh;
+}
+
+.btn-back {
+    color: #666;
+    font-size: 1.2vw;
+    text-decoration: none;
+    font-weight: bold;
+    align-self: flex-end;
+}
+
+.btn-back:hover {
+    color: #00a046;
+}
+
+.title {
+    font-size: 2vw;
+    font-weight: bold;
+    color: #212121;
+}
+
+.management-card {
+    background-color: #ffffff;
+    padding: 5vh 4vw;
+    border-radius: 1vw;
+    display: flex;
+    flex-direction: column;
+    gap: 5vh;
+}
+
+.search-section {
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+}
+
+.row-inputs {
+    display: flex;
+    gap: 2vw;
+}
+
+.row-inputs .input-group {
+    flex: 1;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+}
+
+label {
+    font-size: 1.1vw;
+    font-weight: 600;
+    color: #212121;
+}
+
+input, select {
+    padding: 2vh 1.5vw;
+    background-color: #f8f9fa;
+    border: 0.15vw solid #e0e0e0;
+    border-radius: 0.6vw;
+    font-size: 1.1vw;
+    outline: none;
+}
+
+input:focus, select:focus {
+    border-color: #00a046;
+}
+
+.btn-search {
+    background-color: #00a046;
+    color: white;
+    border: none;
+    border-radius: 0.6vw;
+    padding: 2vh 0;
+    font-size: 1.1vw;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-search:hover {
+    background-color: #008a3c;
+}
+
+.search-result {
+    padding-top: 4vh;
+    border-top: 0.15vw solid #f4f7f6;
+}
+
+.product-preview {
+    display: flex;
+    align-items: center;
+    gap: 2vw;
+    background-color: #f8f9fa;
+    padding: 3vh 2vw;
+    border-radius: 0.8vw;
+}
+
+.preview-image {
+    width: 5vw;
+    height: 5vw;
+    background-color: #e0e0e0;
+    border-radius: 0.5vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #888;
+    font-size: 0.8vw;
+}
+
+.preview-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5vh;
+}
+
+.product-name {
+    font-size: 1.2vw;
+    font-weight: bold;
+    color: #212121;
+}
+
+.product-price {
+    font-size: 1.3vw;
+    font-weight: bold;
+    color: #f84147;
+}
+
+.btn-delete {
+    background-color: #f84147;
+    color: white;
+    border: none;
+    border-radius: 0.6vw;
+    padding: 1.5vh 2.5vw;
+    font-size: 1.1vw;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-delete:hover {
+    background-color: #d32f2f;
+}

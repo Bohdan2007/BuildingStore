@@ -1,0 +1,223 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background-color: #f4f7f6;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.product-container {
+    display: flex;
+    flex-direction: column;
+    width: 90%;
+    max-width: 65vw;
+    padding: 4vh 0;
+    gap: 3vh;
+}
+
+.header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+}
+
+.btn-back {
+    color: #666;
+    font-size: 1.1vw;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.btn-back:hover {
+    color: #00a046;
+}
+
+.product-card {
+    background-color: #ffffff;
+    border-radius: 1vw;
+    padding: 5vh 4vw;
+    display: flex;
+    flex-direction: column;
+    gap: 6vh;
+}
+
+.top-section {
+    display: flex;
+    width: 100%;
+    gap: 4vw;
+}
+
+.left-column {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+    gap: 2vh;
+}
+
+.image-placeholder {
+    width: 100%;
+    height: 45vh;
+    background-color: #f8f9fa;
+    border-radius: 0.8vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #888888;
+    font-size: 1.3vw;
+    font-weight: 500;
+}
+
+.rating-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1vh 0;
+}
+
+.stars {
+    display: flex;
+    gap: 0.5vw;
+}
+
+.star {
+    font-size: 2vw;
+    color: #e0e0e0;
+    cursor: pointer;
+}
+
+.star.active {
+    color: #ffc107;
+}
+
+.rating-text {
+    font-size: 1vw;
+    color: #666;
+}
+
+.right-column {
+    display: flex;
+    flex-direction: column;
+    width: 55%;
+}
+
+.description-block {
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+    height: 100%;
+}
+
+.label-text {
+    font-size: 1.6vw;
+    font-weight: bold;
+    color: #212121;
+}
+
+.description-text {
+    font-size: 1.2vw;
+    color: #444;
+    line-height: 1.6;
+    flex-grow: 1;
+}
+
+.price-block {
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    background-color: #f8f9fa;
+    padding: 3vh 2vw;
+    border-radius: 0.8vw;
+}
+
+.price {
+    font-size: 3vw;
+    font-weight: bold;
+    color: #f84147;
+}
+
+.btn-buy {
+    background-color: #00a046;
+    color: white;
+    border: none;
+    border-radius: 0.6vw;
+    padding: 2.5vh 0;
+    font-size: 1.4vw;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+}
+
+.btn-buy:hover {
+    background-color: #008a3c;
+}
+
+.bottom-section {
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+    padding-top: 4vh;
+}
+
+.comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+}
+
+.comment {
+    background-color: #f8f9fa;
+    padding: 2.5vh 2vw;
+    border-radius: 0.8vw;
+    font-size: 1.1vw;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+}
+
+.comment-author {
+    font-weight: bold;
+    color: #00a046;
+    font-size: 1vw;
+}
+
+.add-comment-block {
+    display: flex;
+    gap: 1vw;
+    width: 100%;
+}
+
+input {
+    flex-grow: 1;
+    padding: 2vh 1.5vw;
+    background-color: #ffffff;
+    border: 0.15vw solid #e0e0e0;
+    border-radius: 0.6vw;
+    font-size: 1.1vw;
+    outline: none;
+}
+
+input:focus {
+    border-color: #00a046;
+}
+
+.btn-submit {
+    background-color: #00a046;
+    color: white;
+    border: none;
+    border-radius: 0.6vw;
+    padding: 0 3vw;
+    font-size: 1.1vw;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-submit:hover {
+    background-color: #008a3c;
+}

@@ -11,5 +11,11 @@ namespace BuildingStore.Models
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItem { get; set;}
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>().Property(u => u.Role).HasConversion<string>();
+            modelBuilder.Entity<Order>().Property(o => o.Status).HasConversion<string>();
+        }
     }
 }

@@ -1,20 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BuildingStore.Models;
-
-public class OrderItem
+namespace BuildingStore.Models
 {
-    [Key]
-    public int Id { get; set; }
+    public class OrderItem
+    {
+        [Key]
+        public int Id { get; set; }
 
-    [Required]
-    public int Quantity { get; set; }
-    
-    public int OrderId { get; set; }
-    public Order? Order { get; set; }
+        [Required]
+        public int Quantity { get; set; }
 
-    public int ProductId { get; set; }
-    public Product? Product { get; set; }
+        public int OrderId { get; set; }
+        public Order? Order { get; set; }
 
+        public int ProductId { get; set; }
+        public Product? Product { get; set; }
+
+    }
 }
 

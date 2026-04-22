@@ -1,15 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BuildingStore.Models;
-
-public class Category
+namespace BuildingStore.Models 
 {
-    [Key]
-    public int Id { get; set; }
-    
-    [Required]
-    public string Name { get; set; } = string.Empty;
+    public class Category
+    {
+        [Key]
+        public int Id { get; set; }
 
-    public List<Product> Products { get; set; } = new();
+        [Required]
+        public string Name { get; set; } = string.Empty;
+
+        public List<Product> Products { get; set; } = new();
+    }
 }
+
+
+
 

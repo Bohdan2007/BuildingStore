@@ -9,28 +9,26 @@
     <body>
 
         <div class="login-container">
-            <form class="login-form">
+            <form action="/Authorization/SignIn" method="post" class="login-form">
 
-                <div class="error-message">
-                    Неправильні дані для входу. Спробуйте ще раз.
-                </div>
-
-                <div class="input-group">
-                    <label>Введіть ПІБ</label>
-                    <input type="text" spellcheck="false" />
-                </div>
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="error-message">
+                        @ViewData.ModelState.Values.SelectMany(v => v.Errors).FirstOrDefault()?.ErrorMessage
+                    </div>
+                }
 
                 <div class="input-group">
                     <label>Введіть Email</label>
-                    <input type="email" spellcheck="false" />
+                    <input name="email" type="email" spellcheck="false" />
                 </div>
 
                 <div class="input-group">
                     <label>Введіть пароль</label>
-                    <input type="password" />
+                    <input name="password" type="password" />
                 </div>
 
-                <a href="/User/Profile" class="btn-login">Увійти</a>
+                <button type="submit" class="btn-login">Увійти</button>
 
                 <a href="/Products/Products" class="btn-back">Повернутися до каталогу</a>
 

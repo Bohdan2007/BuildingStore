@@ -1,5 +1,5 @@
 * {
-    margin: 0; 
+    margin: 0;
     padding: 0;
 }
 
@@ -66,7 +66,7 @@ main {
     display: flex;
     flex-grow: 1;
     padding: 4vh 4vw;
-    gap: 3vw; 
+    gap: 3vw;
     align-items: flex-start;
 }
 
@@ -74,7 +74,7 @@ main {
     display: flex;
     flex-direction: column;
     width: calc(20vw - 4vw);
-    background-color: white; 
+    background-color: white;
     border-radius: 1vw;
     padding: 3vh 2vw;
     gap: 1.5vh;
@@ -102,14 +102,14 @@ main {
 }
 
 .category-link.active-all {
-    background-color: #e0e0e0; 
+    background-color: #e0e0e0;
     color: #212121;
     font-weight: bold;
 }
 
 .products-grid {
     display: flex;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
     gap: 2vw;
     flex-grow: 1;
 }
@@ -117,8 +117,8 @@ main {
 .product-card {
     display: flex;
     flex-direction: column;
-    width: calc(((100% - 4vw) / 3) - 4vw); 
-    background-color: white; 
+    width: calc(((100% - 4vw) / 3) - 4vw);
+    background-color: white;
     border-radius: 1vw;
     padding: 3vh 2vw;
     gap: 2vh;
@@ -138,7 +138,7 @@ main {
 .product-title {
     font-size: 1.2vw;
     font-weight: 600;
-    flex-grow: 1; 
+    flex-grow: 1;
 }
 
 .product-rating {
@@ -149,7 +149,7 @@ main {
 .product-price {
     font-size: 1.8vw;
     font-weight: bold;
-    color: #f84147; 
+    color: #f84147;
 }
 
 .btn-buy {
@@ -173,8 +173,8 @@ main {
     font-size: 1.2vw;
     font-weight: 600;
     flex-grow: 1;
-    text-decoration: none; 
-    color: #333; 
+    text-decoration: none;
+    color: #333;
 }
 
 .product-title:hover {

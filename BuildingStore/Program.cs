@@ -1,4 +1,8 @@
 using BuildingStore.Models;
+using BuildingStore.Services.BusinessLogic;
+using BuildingStore.Services.Patterns.Proxy;
+using BuildingStore.Services.Patterns.Proxy.ProtectionProxy;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace BuildingStore
@@ -12,6 +16,9 @@ namespace BuildingStore
             // Add services to the container.
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<AppDbContext>(options =>options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddScoped<AuthorizationService>();
+            builder.Services.AddScoped<IAdminLoginService, ProtectionAdminProxy>();
+            builder.Services.AddScoped<RealAdminLoginService>();
 
             var app = builder.Build();
 

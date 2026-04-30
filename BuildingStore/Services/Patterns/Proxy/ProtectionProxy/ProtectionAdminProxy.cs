@@ -1,4 +1,4 @@
-﻿ using BuildingStore.Models;
+﻿using BuildingStore.Models;
 using BuildingStore.Services.Patterns.Proxy.ProtectionProxy;
 
 namespace BuildingStore.Services.Patterns.Proxy

@@ -2,6 +2,7 @@
 
 namespace BuildingStore.Models
 {
+    public enum ProductStatus : byte{ Created, Processing, Completed }
     public class OrderItem
     {
         [Key]
@@ -9,6 +10,9 @@ namespace BuildingStore.Models
 
         [Required]
         public int Quantity { get; set; }
+
+        [Required]
+        public ProductStatus ProductStatus { get; set; } = ProductStatus.Created;
 
         public int OrderId { get; set; }
         public Order? Order { get; set; }

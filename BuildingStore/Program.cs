@@ -19,6 +19,7 @@ namespace BuildingStore
             builder.Services.AddScoped<AuthorizationService>();
             builder.Services.AddScoped<IAdminLoginService, ProtectionAdminProxy>();
             builder.Services.AddScoped<RealAdminLoginService>();
+            builder.Services.AddScoped<UserService>();
 
             var app = builder.Build();
 

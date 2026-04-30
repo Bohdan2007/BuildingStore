@@ -36,10 +36,10 @@ namespace BuildingStore.Controllers
             {
                 if (isAdmin)
                 {
-                    return RedirectToAction("AdminProfile", "User");
+                    return RedirectToAction("AdminProfile", "User", new { email = email });
                 }
 
-                return RedirectToAction("Profile", "User");
+                return RedirectToAction("Profile", "User", new {email = email});
             }
 
             ModelState.AddModelError(string.Empty, "Неправильні дані для входу. Спробуйте ще раз.");
@@ -58,7 +58,7 @@ namespace BuildingStore.Controllers
 
             if (isExistUser)
             {
-                return RedirectToAction("Profile", "User");
+                return RedirectToAction("Profile", "User", new { email = email });
             }
 
             if (authorizationService.IsSignIn(email))

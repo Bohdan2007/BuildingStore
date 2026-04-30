@@ -1,6 +1,4 @@
-﻿using BuildingStore.Services.Patterns.Proxy.ProtectionProxy;
-
-namespace BuildingStore.Services.Patterns.Proxy.ProtectionProxy
+﻿namespace BuildingStore.Services.Patterns.Proxy.ProtectionProxy
 {
     public class RealAdminLoginService : IAdminLoginService
     {

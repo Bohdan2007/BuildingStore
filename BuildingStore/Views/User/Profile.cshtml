@@ -20,8 +20,8 @@
                 <section class="user-info-card">
                     <div class="user-avatar">👤</div>
                     <div class="user-details">
-                        <div class="user-name">Іван Іванов</div>
-                        <div class="user-email">ivanov@email.com</div>
+                        <div class="user-name">@Model.Name</div>
+                        <div class="user-email">@Model.Email</div>
                     </div>
                 </section>
 
@@ -29,28 +29,31 @@
                     <h2 class="section-title">Історія замовлень</h2>
 
                     <div class="orders-list">
-                        <div class="order-item">
-                            <div class="order-main">
-                                <span class="order-date">18.04.2026</span>
-                                <span class="order-status">Виконано</span>
-                            </div>
-                            <div class="order-info">
-                                <span class="order-name">Професійний перфоратор Z-100</span>
-                                <span class="order-price">4 500 ₴</span>
-                            </div>
-                        </div>
-
-                        <div class="order-item">
-                            <div class="order-main">
-                                <span class="order-date">12.03.2026</span>
-                                <span class="order-status">Виконано</span>
-                            </div>
-                            <div class="order-info">
-                                <span class="order-name">Цемент М500 (25кг) x 4</span>
-                                <span class="order-price">1 200 ₴</span>
-                            </div>
-                        </div>
+                        @if (Model.Orders == null || Model.Orders.Count == 0)
+                        {
+                            <p class="zero-orders">У вас ще немає виконаних замовлень.</p>
+                        }
+                        else
+                        {
+                            @foreach (var order in Model.Orders)
+                            {
+                                @foreach (var item in order.OrderItems)
+                                {
+                                    <div class="order-item">
+                                        <div class="order-main">
+                                            <span class="order-date">@order.OrderDate.ToString("dd.MM.yyyy")</span>
+                                            <span class="order-status">Виконано</span>
+                                        </div>
+                                        <div class="order-info">
+                                            <span class="order-name">@item.Product.Name (@item.Quantity)</span>
+                                            <span class="order-price">@(item.Product.Price* item.Quantity) ₴</span>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        }
                     </div>
+
                 </section>
 
             </main>

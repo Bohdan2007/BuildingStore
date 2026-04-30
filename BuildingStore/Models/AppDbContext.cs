@@ -15,7 +15,8 @@ namespace BuildingStore.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().Property(u => u.Role).HasConversion<string>();
-            modelBuilder.Entity<Order>().Property(o => o.Status).HasConversion<string>();
+            modelBuilder.Entity<Order>().Property(o => o.OrderStatus).HasConversion<string>();
+            modelBuilder.Entity<OrderItem>().Property(o => o.ProductStatus).HasConversion<string>();
         }
     }
 }

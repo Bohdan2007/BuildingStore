@@ -50,13 +50,16 @@ namespace BuildingStore.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("OrderStatus")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("PostOfficeNumber")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("numeric");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -82,6 +85,10 @@ namespace BuildingStore.Migrations
                     b.Property<int>("ProductId")
                         .HasColumnType("integer");
 
+                    b.Property<string>("ProductStatus")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
@@ -91,7 +98,7 @@ namespace BuildingStore.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderItem");
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("BuildingStore.Models.Product", b =>
@@ -123,8 +130,8 @@ namespace BuildingStore.Migrations
                     b.Property<int>("QuantityInStock")
                         .HasColumnType("integer");
 
-                    b.Property<double>("Rating")
-                        .HasColumnType("double precision");
+                    b.Property<int>("Rating")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 

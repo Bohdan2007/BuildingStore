@@ -2,7 +2,7 @@
 
 namespace BuildingStore.Models 
 {
-    public enum OrderStatus : byte { Processing, Done }
+    public enum OrderStatus : byte { Processing, Completed }
     public class Order
     {
         [Key]
@@ -12,7 +12,10 @@ namespace BuildingStore.Models
         public DateTime OrderDate { get; set; }
 
         [Required]
-        public OrderStatus Status { get; set; } = OrderStatus.Processing;
+        public decimal TotalAmount { get; set; }
+
+        [Required]
+        public OrderStatus OrderStatus { get; set; } = OrderStatus.Processing;
 
         [Required]
         public string PostOfficeNumber { get; set; } = string.Empty;

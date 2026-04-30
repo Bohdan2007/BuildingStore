@@ -20,7 +20,7 @@ namespace BuildingStore.Models
         public string Photo { get; set; } = string.Empty;
 
         [Required]
-        public double Rating { get; set; }
+        public int Rating { get; set; }
 
         [Required]
         public int QuantityInStock { get; set; }

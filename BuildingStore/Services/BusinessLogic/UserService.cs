@@ -1,0 +1,92 @@
+﻿using BuildingStore.Models;
+using BuildingStore.Services.Patterns.Observer;
+using BuildingStore.Services.Patterns.State;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace BuildingStore.Services.BusinessLogic
+{
+    public class UserService
+    {
+        private readonly AppDbContext appDbContext;
+        private readonly List<IOrderObserver> observers = new();
+
+        public UserService(AppDbContext appDbContext)
+        {
+            this.appDbContext = appDbContext;
+            observers.Add(new DatabaseObserver(appDbContext));
+        }
+
+        public User FindUser(string email)
+        {
+            var user = appDbContext.Users.Include(u => u.Orders.Where(o => o.OrderStatus == OrderStatus.Completed)).ThenInclude(o => o.OrderItems).ThenInclude(oi => oi.Product).FirstOrDefault(u => u.Email == email);
+
+            return user ?? new User { Name = "Користувач", Email = "user@gmail.com", Orders = new List<Order>() };
+        }
+        public User FindAdmin(string email)
+        {
+            var admin = appDbContext.Users.FirstOrDefault(u => u.Email == email);
+
+            if (admin != null)
+            {
+                var allPendingOrders = appDbContext.Orders.Include(o => o.User).Include(o => o.OrderItems).ThenInclude(oi => oi.Product).Where(o => o.OrderStatus == OrderStatus.Processing).ToList();
+
+                admin.Orders = allPendingOrders;
+            }
+
+            return admin ?? new User { Name = "Адмін", Email = "admin@gmail.com", Orders = new List<Order>() };
+        }
+
+        public void RemoveItemFromOrder(int orderItemId)
+        {
+            var item = appDbContext.OrderItems.Include(i => i.Order).ThenInclude(o => o.OrderItems).FirstOrDefault(i => i.Id == orderItemId);
+
+            if (item != null)
+            {
+                var state = GetCurrentState(item.ProductStatus);
+                state.Cancel(item); 
+
+                appDbContext.OrderItems.Remove(item);
+                appDbContext.SaveChanges();
+
+                NotifyObservers(item.Order);
+            }
+        }
+        public void CompleteOrderItemAdmin(int orderItemId)
+        {
+            var item = appDbContext.OrderItems.Include(i => i.Order).ThenInclude(o => o.OrderItems).FirstOrDefault(i => i.Id == orderItemId);
+
+            if (item != null)
+            {
+                var state = GetCurrentState(item.ProductStatus);
+                state.Complete(item); 
+
+                NotifyObservers(item.Order); 
+            }
+        }
+
+        private IOrderItemState GetCurrentState(ProductStatus status)
+        {
+            switch (status)
+            {
+                case ProductStatus.Created:
+                    return new CreatedState();
+                case ProductStatus.Processing:
+                    return new ProcessingState();
+                case ProductStatus.Completed:
+                    return new CompletedState();
+                default:
+                    throw new ArgumentException("Невідомий статус товару");
+            }
+        }
+        private void NotifyObservers(Order order)
+        {
+            foreach (var observer in observers)
+            {
+                observer.OrderChanged(order);
+            }
+        }
+    }
+}

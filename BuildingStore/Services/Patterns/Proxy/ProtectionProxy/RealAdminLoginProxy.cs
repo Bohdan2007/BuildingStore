@@ -1,6 +1,6 @@
 ﻿namespace BuildingStore.Services.Patterns.Proxy.ProtectionProxy
 {
-    public class RealAdminLoginService : IAdminLoginService
+    public class RealAdminLoginProxy : IAdminLoginProxy
     {
         public bool EnterAdminPanel(string email)
         {

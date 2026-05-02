@@ -2,9 +2,6 @@
 using BuildingStore.Services.Patterns.Observer;
 using BuildingStore.Services.Patterns.State;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace BuildingStore.Services.BusinessLogic
 {

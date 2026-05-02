@@ -1,63 +1,68 @@
 ﻿<!DOCTYPE html>
-    <html lang="ua">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Додати товар - Z-Build</title>
-        <link rel="stylesheet" href="~/css/addProduct.css" asp-append-version="true" />
-    </head>
-    <body>
+<html lang="ua">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Додати товар - Z-Build</title>
+    <link rel="stylesheet" href="~/css/addProduct.css" asp-append-version="true" />
+</head>
+<body>
 
-        <div class="admin-container">
+    <div class="admin-container">
 
-            <header class="header">
-                <a href="/User/AdminProfile" class="btn-back">Назад до панелі</a>
-                <h1 class="title">Новий товар</h1>
-            </header>
+        <header class="header">
+            <a href="/User/AdminProfile" class="btn-back">Назад до панелі</a>
+            <h1 class="title">Новий товар</h1>
+        </header>
 
-            <main class="form-card">
-                <form class="product-form" enctype="multipart/form-data">
+        <main class="form-card">
+            <!-- Блок з помилкою (за дизайном зі скріншота) -->
+            <div class="error-message">
+                Помилка: Заповніть всі обов'язкові поля або товар з такою назвою вже існує.
+            </div>
 
+            <form class="product-form" enctype="multipart/form-data">
+
+                <div class="input-group">
+                    <label>Назва товару</label>
+                    <input type="text" placeholder="Наприклад: Професійний перфоратор" spellcheck="false" />
+                </div>
+
+                <div class="row-inputs">
                     <div class="input-group">
-                        <label>Назва товару</label>
-                        <input type="text" placeholder="Наприклад: Професійний перфоратор" spellcheck="false" />
+                        <label>Ціна (₴)</label>
+                        <input placeholder="0.00" class="price-input" />
                     </div>
-
-                    <div class="row-inputs">
-                        <div class="input-group">
-                            <label>Ціна (₴)</label>
-                            <input placeholder="0.00" class="price-input" />
-                        </div>
-                        <div class="input-group">
-                            <label>Категорія</label>
-                            <select>
-                                <option>Інструменти</option>
-                                <option>Будматеріали</option>
-                                <option>Сантехніка</option>
-                                <option>Електротовари</option>
-                            </select>
-                        </div>
-                    </div>
-
                     <div class="input-group">
-                        <label>Опис товару</label>
-                        <textarea class="textarea" placeholder="Детально опишіть характеристики товару..." rows="5"></textarea>
+                        <label>Категорія</label>
+                        <select>
+                            <option>Інструменти</option>
+                            <option>Будматеріали</option>
+                            <option>Сантехніка</option>
+                            <option>Електротовари</option>
+                        </select>
                     </div>
+                </div>
 
-                    <div class="input-group">
-                        <label>Фото товару</label>
-                        <label class="custom-file-upload">
-                            <input type="file" accept="image/*" class="hidden-input" />
-                            <span class="upload-text">Вибрати файл із комп'ютера</span>
-                        </label>
-                    </div>
+                <div class="input-group">
+                    <label>Опис товару</label>
+                    <textarea class="textarea" placeholder="Детально опишіть характеристики товару..." rows="5"></textarea>
+                </div>
 
-                    <button type="submit" class="btn-save">Створити товар</button>
+                <div class="input-group">
+                    <label>Фото товару</label>
+                    <label class="custom-file-upload">
+                        <input type="file" accept="image/*" class="hidden-input" />
+                        <span class="upload-text">Вибрати файл із комп'ютера</span>
+                    </label>
+                </div>
 
-                </form>
-            </main>
+                <button type="submit" class="btn-save">Створити товар</button>
 
-        </div>
+            </form>
+        </main>
 
-    </body>
+    </div>
+
+</body>
 </html>

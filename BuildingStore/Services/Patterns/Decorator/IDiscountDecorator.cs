@@ -1,6 +1,7 @@
 ﻿namespace BuildingStore.Services.Patterns.Decorator
 {
-    public class Decorator
+    public interface IDiscountDecorator
     {
+        decimal GetPrice();
     }
 }

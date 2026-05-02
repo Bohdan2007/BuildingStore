@@ -149,3 +149,15 @@ input:focus, textarea:focus, select:focus {
 .btn-save:hover {
     background-color: #008a3c;
 }
+
+.error-message {
+    background-color: #fce4e4; 
+    color: #d32f2f; 
+    border: 0.15vw solid #fccacb; 
+    border-radius: 0.6vw;
+    padding: 2vh 1.5vw;
+    text-align: center;
+    font-size: 1.1vw;
+    font-weight: 500;
+    margin-bottom: 2vh; 
+}

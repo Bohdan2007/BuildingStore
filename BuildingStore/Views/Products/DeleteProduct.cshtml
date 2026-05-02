@@ -1,53 +1,54 @@
 ﻿<!DOCTYPE html>
 <html lang="ua">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Видалити товар - Z-Build</title>
-        <link rel="stylesheet" href="~/css/deleteProduct.css" asp-append-version="true" />
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Видалити товар - Z-Build</title>
+    <link rel="stylesheet" href="~/css/deleteProduct.css" asp-append-version="true" />
+</head>
+<body>
 
-        <div class="admin-container">
+    <div class="admin-container">
 
-            <header class="header">
-                <a href="/User/AdminProfile" class="btn-back">Назад до панелі</a>
-                <h1 class="title">Видалення товару</h1>
-            </header>
+        <header class="header">
+            <a href="/User/AdminProfile" class="btn-back">Назад до панелі</a>
+            <h1 class="title">Видалення товару</h1>
+        </header>
 
-            <main class="management-card">
-                <div class="search-section">
-                    <div class="row-inputs">
-                        <div class="input-group">
-                            <label>Категорія</label>
-                            <select>
-                                <option>Інструменти</option>
-                                <option>Будматеріали</option>
-                                <option>Сантехніка</option>
-                                <option>Електротовари</option>
-                            </select>
-                        </div>
-                        <div class="input-group">
-                            <label>Назва товару</label>
-                            <input type="text" placeholder="Введіть назву для пошуку..." spellcheck="false" />
-                        </div>
+        <main class="management-card">
+
+            <div class="search-section">
+                <div class="row-inputs">
+                    <div class="input-group">
+                        <label>Категорія</label>
+                        <select>
+                            <option>Інструменти</option>
+                            <option>Будматеріали</option>
+                            <option>Сантехніка</option>
+                            <option>Електротовари</option>
+                        </select>
                     </div>
-                    <button class="btn-search">Знайти товар</button>
-                </div>
-
-                <div class="search-result">
-                    <div class="product-preview">
-                        <div class="preview-image">Фото</div>
-                        <div class="preview-info">
-                            <div class="product-name">Професійний перфоратор Z-100</div>
-                            <div class="product-price">4 500 ₴</div>
-                        </div>
-                        <button class="btn-delete">Видалити товар</button>
+                    <div class="input-group">
+                        <label>Назва товару</label>
+                        <input type="text" placeholder="Введіть назву для пошуку..." spellcheck="false" />
                     </div>
                 </div>
-            </main>
+                <button class="btn-search">Знайти товар</button>
+            </div>
 
-        </div>
+            <div class="search-result">
+                <div class="product-preview">
+                    <div class="preview-image">Фото</div>
+                    <div class="preview-info">
+                        <div class="product-name">Професійний перфоратор Z-100</div>
+                        <div class="product-price">4 500 ₴</div>
+                    </div>
+                    <button class="btn-delete">Видалити товар</button>
+                </div>
+            </div>
+        </main>
 
-    </body>
+    </div>
+
+</body>
 </html>

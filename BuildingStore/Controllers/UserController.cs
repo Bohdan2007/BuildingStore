@@ -18,7 +18,7 @@ namespace BuildingStore.Controllers
         {
             User user = userService.FindUser(email);
 
-            return View();
+            return View(user);
         }
 
         [HttpGet]
@@ -26,7 +26,7 @@ namespace BuildingStore.Controllers
         {
             User user = userService.FindUser(email);
 
-            return View();
+            return View(user);
         }
     }
 }

@@ -7,9 +7,9 @@ namespace BuildingStore.Controllers
     public class AuthorizationController : Controller
     {
         private readonly AuthorizationService authorizationService;
-        private readonly IAdminLoginService adminLoginService;
+        private readonly IAdminLoginProxy adminLoginService;
 
-        public AuthorizationController(AuthorizationService authorizationService, IAdminLoginService adminLoginService)
+        public AuthorizationController(AuthorizationService authorizationService, IAdminLoginProxy adminLoginService)
         {
             this.authorizationService = authorizationService;
             this.adminLoginService = adminLoginService;

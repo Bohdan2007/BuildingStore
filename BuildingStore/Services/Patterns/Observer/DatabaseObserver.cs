@@ -10,7 +10,6 @@ namespace BuildingStore.Services.Patterns.Observer
         {
             this.appDbContext = appDbContext;
         }
-
         public void OrderChanged(Order order)
         {
             bool allItemsCompleted = order.OrderItems.Any() && order.OrderItems.All(i => i.ProductStatus == ProductStatus.Completed);

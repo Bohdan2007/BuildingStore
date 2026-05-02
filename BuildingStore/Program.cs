@@ -17,8 +17,8 @@ namespace BuildingStore
             builder.Services.AddControllersWithViews();
             builder.Services.AddDbContext<AppDbContext>(options =>options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
             builder.Services.AddScoped<AuthorizationService>();
-            builder.Services.AddScoped<IAdminLoginService, ProtectionAdminProxy>();
-            builder.Services.AddScoped<RealAdminLoginService>();
+            builder.Services.AddScoped<IAdminLoginProxy, ProtectionAdminProxy>();
+            builder.Services.AddScoped<RealAdminLoginProxy>();
             builder.Services.AddScoped<UserService>();
 
             var app = builder.Build();

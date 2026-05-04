@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model Tuple<BuildingStore.Models.Product, List<BuildingStore.Models.Category>>
+
+<!DOCTYPE html>
 <html lang="ua">
 <head>
     <meta charset="UTF-8">
@@ -16,45 +18,59 @@
         </header>
 
         <main class="form-card">
-            <!-- Блок з помилкою (за дизайном зі скріншота) -->
-            <div class="error-message">
-                Помилка: Заповніть всі обов'язкові поля або товар з такою назвою вже існує.
-            </div>
 
-            <form class="product-form" enctype="multipart/form-data">
+            @{
+                var firstError = ViewData.ModelState.Values.SelectMany(v => v.Errors).FirstOrDefault()?.ErrorMessage;
+            }
+
+            @if (!string.IsNullOrEmpty(firstError))
+            {
+                <div class="error-message">
+                    @firstError
+                </div>
+            }
+
+            <form controller="Products" action="AddProduct" method="post" enctype="multipart/form-data" class="product-form">
 
                 <div class="input-group">
                     <label>Назва товару</label>
-                    <input type="text" placeholder="Наприклад: Професійний перфоратор" spellcheck="false" />
+                    <input type="text" name="Name" value="@Model.Item1.Name" placeholder="Наприклад: Професійний перфоратор" spellcheck="false" />
                 </div>
 
                 <div class="row-inputs">
                     <div class="input-group">
                         <label>Ціна (₴)</label>
-                        <input placeholder="0.00" class="price-input" />
+                        <input type="number" step="0.01" name="Price" value="@(Model.Item1.Price > 0 ? Model.Item1.Price.ToString().Replace(",", ".") : "")" placeholder="0.00" class="price-input" />
                     </div>
                     <div class="input-group">
                         <label>Категорія</label>
-                        <select>
-                            <option>Інструменти</option>
-                            <option>Будматеріали</option>
-                            <option>Сантехніка</option>
-                            <option>Електротовари</option>
+                        <select name="CategoryId">
+                            <option value="">Оберіть категорію...</option>
+                            @foreach (var category in Model.Item2)
+                            {
+                                if (Model.Item1.CategoryId == category.Id)
+                                {
+                                    <option value="@category.Id" selected>@category.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@category.Id">@category.Name</option>
+                                }
+                            }
                         </select>
                     </div>
                 </div>
 
                 <div class="input-group">
                     <label>Опис товару</label>
-                    <textarea class="textarea" placeholder="Детально опишіть характеристики товару..." rows="5"></textarea>
+                    <textarea name="Description" class="textarea" placeholder="Детально опишіть характеристики товару..." rows="5">@Model.Item1.Description</textarea>
                 </div>
 
                 <div class="input-group">
                     <label>Фото товару</label>
-                    <label class="custom-file-upload">
-                        <input type="file" accept="image/*" class="hidden-input" />
-                        <span class="upload-text">Вибрати файл із комп'ютера</span>
-                    </label>
+                    <div class="file-upload-wrapper">
+                        <input type="file" name="photo" accept="image/*" class="file-input" />
+                    </div>
                 </div>
 
                 <button type="submit" class="btn-save">Створити товар</button>

@@ -1,6 +1,7 @@
 ﻿* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 body {
@@ -9,6 +10,7 @@ body {
     display: flex;
     justify-content: center;
     min-height: 100vh;
+    color: #333;
 }
 
 .product-container {
@@ -24,7 +26,6 @@ body {
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    width: 100%;
 }
 
 .btn-back {
@@ -49,7 +50,6 @@ body {
 
 .top-section {
     display: flex;
-    width: 100%;
     gap: 4vw;
 }
 
@@ -68,16 +68,19 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #888888;
-    font-size: 1.3vw;
-    font-weight: 500;
+    overflow: hidden;
+}
+
+.product-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .rating-section {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1vh 0;
 }
 
 .stars {
@@ -88,7 +91,7 @@ body {
 .star {
     font-size: 2vw;
     color: #e0e0e0;
-    cursor: pointer;
+    cursor: default;
 }
 
 .star.active {
@@ -110,7 +113,11 @@ body {
     display: flex;
     flex-direction: column;
     gap: 3vh;
-    height: 100%;
+}
+
+.product-title {
+    font-size: 2.2vw;
+    color: #212121;
 }
 
 .label-text {
@@ -123,22 +130,27 @@ body {
     font-size: 1.2vw;
     color: #444;
     line-height: 1.6;
-    flex-grow: 1;
 }
 
 .price-block {
     display: flex;
     flex-direction: column;
-    gap: 2vh;
+    align-items: center; 
+    gap: 3vh;
     background-color: #f8f9fa;
-    padding: 3vh 2vw;
+    padding: 4vh 2vw;
     border-radius: 0.8vw;
 }
 
 .price {
-    font-size: 3vw;
+    font-size: 3.5vw;
     font-weight: bold;
     color: #f84147;
+    text-align: center;
+}
+
+.price-block form {
+    width: 100%; 
 }
 
 .btn-buy {
@@ -146,22 +158,25 @@ body {
     color: white;
     border: none;
     border-radius: 0.6vw;
-    padding: 2.5vh 0;
-    font-size: 1.4vw;
+    padding: 2.2vh 0;
+    font-size: 1.5vw;
     font-weight: bold;
     cursor: pointer;
-    width: 100%;
+    width: 100%; 
 }
 
 .btn-buy:hover {
     background-color: #008a3c;
 }
 
+.btn-buy:active {
+    transform: scale(0.98);
+}
+
 .bottom-section {
     display: flex;
     flex-direction: column;
     gap: 3vh;
-    padding-top: 4vh;
 }
 
 .comments-list {
@@ -176,27 +191,18 @@ body {
     border-radius: 0.8vw;
     font-size: 1.1vw;
     color: #333;
-    display: flex;
-    flex-direction: column;
-    gap: 1vh;
-}
-
-.comment-author {
-    font-weight: bold;
-    color: #00a046;
-    font-size: 1vw;
 }
 
 .add-comment-block {
     display: flex;
     gap: 1vw;
     width: 100%;
+    padding-top: 2vh;
 }
 
 input {
     flex-grow: 1;
     padding: 2vh 1.5vw;
-    background-color: #ffffff;
     border: 0.15vw solid #e0e0e0;
     border-radius: 0.6vw;
     font-size: 1.1vw;
@@ -216,8 +222,4 @@ input:focus {
     font-size: 1.1vw;
     font-weight: bold;
     cursor: pointer;
-}
-
-.btn-submit:hover {
-    background-color: #008a3c;
 }

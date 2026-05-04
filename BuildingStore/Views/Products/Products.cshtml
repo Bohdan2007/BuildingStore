@@ -1,65 +1,88 @@
-﻿<!DOCTYPE html>
+﻿@using BuildingStore.Models
+@model (List<Product> Products, List<Category> Categories, string SearchName, int? CategoryId)
+
+<!DOCTYPE html>
 <html lang="ua">
-    <head>
-        <meta charset="UTF-8">
-        <title>Z-Build - Каталог товарів</title>
-        <link rel="stylesheet" href="~/css/products.css" asp-append-version="true" />
-    </head>
-    <body>
-        <header>
-            <p class="logo">Z-Build</p>
-            <div class="search-bar">
-                <input type="text" placeholder="Шукайте товар">
-            </div>
-            <div class="header-icons">
-                <a href="/Authorization/Authorization">Увійти</a>
-                <a href="/Basket/Basket">Кошик</a>
-            </div>
-        </header>
-        <main>
-            <aside class="sidebar">
-                <h3>Категорії</h3>
-                <a href="/Products/Products" class="category-link">Інструменти та обладнання</a>
-                <a href="/Products/Products" class="category-link">Сухі суміші</a>
-                <a href="/Products/Products" class="category-link">Покрівля</a>
-                <a href="/Products/Products" class="category-link">Електрика</a>
-                <a href="/Products/Products" class="category-link">Сантехніка</a>
-            </aside>
-            <div class="products-grid">
+<head>
+    <meta charset="UTF-8">
+    <title>Z-Build - Каталог товарів</title>
+    <link rel="stylesheet" href="~/css/products.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <a href="/Products/Products" class="logo">Z-Build</a>
 
-                <div class="product-card">
-                    <div class="product-image-placeholder">Фото: Перфоратор</div>
-                    <a href="/Products/Product" class="product-title">Перфоратор Bosch GBH 2-26 DRE</a>
-                    <div class="product-rating">★★★☆☆ (42 відгуки)</div>
-                    <div class="product-price">4 500 ₴</div>
-                    <button class="btn-buy">Додати до кошика</button>
-                </div>
+        <div class="search-bar">
+            <form controller="Products" action="Products" method="get" class="search-form">
+                <input type="hidden" name="categoryId" value="@Model.CategoryId" />
+                <input type="text" name="searchName" value="@Model.SearchName" placeholder="Шукайте товар...">
+                <button type="submit" class="hidden-submit"></button>
+            </form>
+        </div>
 
-                <div class="product-card">
-                    <div class="product-image-placeholder">Фото: Цемент</div>
-                    <a href="/Products/Product" class="product-title">Цемент М500 ПЦ I-500 (50 кг)</a>
-                    <div class="product-rating">★★★☆☆ (18 відгуків)</div>
-                    <div class="product-price">180 ₴</div>
-                    <button class="btn-buy">Додати до кошика</button>
-                </div>
+        <div class="header-icons">
+            <a href="/Authorization/Authorization">Увійти</a>
+            <a href="/Basket/Basket">Кошик</a>
+        </div>
+    </header>
 
-                <div class="product-card">
-                    <div class="product-image-placeholder">Фото: Рулетка</div>
-                    <a href="/Products/Product" class="product-title">Рулетка вимірювальна 5м</a>
-                    <div class="product-rating">★★★☆☆ (5 відгуків)</div>
-                    <div class="product-price">120 ₴</div>
-                    <button class="btn-buy">Додати до кошика</button>
-                </div>
+    <main>
+        <aside class="sidebar">
+            <h3>Категорії</h3>
+            <form controller="Products" action="Products" method="get" class="categories-form">
+                <input type="hidden" name="searchName" value="@Model.SearchName" />
 
-                <div class="product-card">
-                    <div class="product-image-placeholder">Фото: Ламінат</div>
-                    <a href="/Products/Product" class="product-title">Ламінат дуб класичний 32 клас</a>
-                    <div class="product-rating"> ★★★☆☆ (11 відгуків)</div>
-                    <div class="product-price">450 ₴</div>
-                    <button class="btn-buy">Додати до кошика</button>
-                </div>
+                <button type="submit" name="categoryId" value="" class="category-link">
+                    Усі товари
+                </button>
 
-            </div>
-        </main>
-    </body>
+                @if (Model.Categories != null)
+                {
+                    @foreach (var cat in Model.Categories)
+                    {
+                        <button type="submit" name="categoryId" value="@cat.Id" class="category-link">
+                            @cat.Name
+                        </button>
+                    }
+                }
+            </form>
+        </aside>
+
+        <div class="products-grid">
+            @if (Model.Products != null && Model.Products.Any())
+            {
+                @foreach (var product in Model.Products)
+                {
+                    <div class="product-card">
+                        <div class="product-image-placeholder">
+                            @if (!string.IsNullOrEmpty(product.Photo))
+                            {
+                                <img src="~/images/@product.Photo" alt="@product.Name" class="product-image" />
+                            }
+                            else
+                            {
+                                <span>Фото: @product.Name</span>
+                            }
+                        </div>
+
+                        <a href="/Products/Product?id=@product.Id" class="product-title">@product.Name</a>
+
+                        <div class="product-rating">★★★☆☆</div>
+
+                        <div class="product-price">@product.Price.ToString("N0") ₴</div>
+
+                        <form controller="Basket" action="AddToBasket" method="post" class="buy-form">
+                            <input type="hidden" name="productId" value="@product.Id" />
+                            <button type="submit" class="btn-buy">Додати до кошика</button>
+                        </form>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="no-products-msg">Товарів не знайдено.</div>
+            }
+        </div>
+    </main>
+</body>
 </html>

@@ -1,6 +1,7 @@
 ﻿* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 body {
@@ -48,6 +49,9 @@ body {
     background-color: #ffffff;
     padding: 5vh 4vw;
     border-radius: 1vw;
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
 }
 
 .product-form {
@@ -100,39 +104,34 @@ input:focus, textarea:focus, select:focus {
     resize: none;
 }
 
-.hidden-input {
-    display: none; 
-}
-
-.custom-file-upload {
+.file-upload-wrapper {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 1.5vh;
-    padding: 4vh 0;
+    justify-content: center; 
+    padding: 3vh 1.5vw; 
     background-color: #f8f9fa;
-    border: 0.15vw dashed #e0e0e0;
-    border-radius: 0.8vw;
-    cursor: pointer;
+    border: 0.15vw dashed #b0b0b0; 
+    border-radius: 0.6vw;
 }
 
-.custom-file-upload:hover {
-    background-color: #f0fdf4;
+.file-upload-wrapper:hover {
     border-color: #00a046;
+    background-color: #f0fdf4; 
 }
 
-.upload-icon {
-    font-size: 2vw;
-}
-
-.upload-text {
-    font-size: 1vw;
+.file-input {
+    width: 100%;
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    cursor: pointer;
+    font-family: inherit;
     color: #666;
+    text-align: center; 
 }
 
-.custom-file-upload:hover .upload-text {
-    color: #00a046;
+.file-input::file-selector-button {
+    display: none;
 }
 
 .btn-save {
@@ -140,10 +139,13 @@ input:focus, textarea:focus, select:focus {
     color: white;
     border: none;
     border-radius: 0.6vw;
-    padding: 2.5vh 0;
-    font-size: 1.3vw;
+    min-height: 6vh;
+    font-size: 1.4vw;
     font-weight: bold;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .btn-save:hover {
@@ -151,13 +153,18 @@ input:focus, textarea:focus, select:focus {
 }
 
 .error-message {
-    background-color: #fce4e4; 
-    color: #d32f2f; 
-    border: 0.15vw solid #fccacb; 
+    background-color: #fce4e4;
+    color: #d32f2f;
+    border: 0.15vw solid #fccacb;
     border-radius: 0.6vw;
     padding: 2vh 1.5vw;
-    text-align: center;
     font-size: 1.1vw;
     font-weight: 500;
-    margin-bottom: 2vh; 
+}
+
+.error-message ul {
+    list-style-type: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5vh;
 }

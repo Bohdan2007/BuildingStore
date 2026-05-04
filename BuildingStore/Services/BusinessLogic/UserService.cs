@@ -28,14 +28,11 @@ namespace BuildingStore.Services.BusinessLogic
 
             if (admin != null)
             {
-                var allPendingOrders = appDbContext.Orders.Include(o => o.User).Include(o => o.OrderItems).ThenInclude(oi => oi.Product).Where(o => o.OrderStatus == OrderStatus.Processing).ToList();
-
-                admin.Orders = allPendingOrders;
+                admin.Orders = appDbContext.Orders.Include(o => o.User).Include(o => o.OrderItems.Where(i => i.ProductStatus == ProductStatus.Processing)).ThenInclude(oi => oi.Product).Where(o => (o.AdminId == null || o.AdminId == admin.Id) && o.OrderItems.Any(i => i.ProductStatus == ProductStatus.Processing)).ToList();
             }
 
             return admin ?? new User { Name = "Адмін", Email = "admin@gmail.com", Orders = new List<Order>() };
         }
-
         public void RemoveItemFromOrder(int orderItemId)
         {
             var item = appDbContext.OrderItems.Include(i => i.Order).ThenInclude(o => o.OrderItems).FirstOrDefault(i => i.Id == orderItemId);
@@ -53,17 +50,18 @@ namespace BuildingStore.Services.BusinessLogic
         }
         public void CompleteOrderItemAdmin(int orderItemId)
         {
-            var item = appDbContext.OrderItems.Include(i => i.Order).ThenInclude(o => o.OrderItems).FirstOrDefault(i => i.Id == orderItemId);
+            var item = appDbContext.OrderItems.Include(i => i.Order).ThenInclude(o => o.User) .Include(i => i.Order).ThenInclude(o => o.OrderItems).ThenInclude(oi => oi.Product) .FirstOrDefault(i => i.Id == orderItemId);
 
             if (item != null)
             {
                 var state = GetCurrentState(item.ProductStatus);
-                state.Complete(item); 
 
-                NotifyObservers(item.Order); 
+                state.Complete(item);
+                appDbContext.SaveChanges();
+
+                NotifyObservers(item.Order);
             }
         }
-
         private IOrderItemState GetCurrentState(ProductStatus status)
         {
             switch (status)

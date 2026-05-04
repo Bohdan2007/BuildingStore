@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@model Tuple<List<BuildingStore.Models.Product>, List<BuildingStore.Models.Category>, string, int?>
+
+<!DOCTYPE html>
 <html lang="ua">
 <head>
     <meta charset="UTF-8">
@@ -16,35 +18,69 @@
         </header>
 
         <main class="management-card">
-
-            <div class="search-section">
+            <form method="get" controller="Products" action="DeleteProduct" class="search-section">
                 <div class="row-inputs">
                     <div class="input-group">
                         <label>Категорія</label>
-                        <select>
-                            <option>Інструменти</option>
-                            <option>Будматеріали</option>
-                            <option>Сантехніка</option>
-                            <option>Електротовари</option>
+                        <select name="categoryId">
+                            <option value="0">Усі категорії</option>
+                            @foreach (var category in Model.Item2)
+                            {
+                                if (Model.Item4 == category.Id)
+                                {
+                                    <option value="@category.Id" selected>@category.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@category.Id">@category.Name</option>
+                                }
+                            }
                         </select>
                     </div>
                     <div class="input-group">
                         <label>Назва товару</label>
-                        <input type="text" placeholder="Введіть назву для пошуку..." spellcheck="false" />
+                        <input type="text" name="searchName" value="@Model.Item3" placeholder="Введіть назву для пошуку..." spellcheck="false" />
                     </div>
                 </div>
-                <button class="btn-search">Знайти товар</button>
-            </div>
+                <button type="submit" class="btn-search">Знайти товар</button>
+            </form>
 
             <div class="search-result">
-                <div class="product-preview">
-                    <div class="preview-image">Фото</div>
-                    <div class="preview-info">
-                        <div class="product-name">Професійний перфоратор Z-100</div>
-                        <div class="product-price">4 500 ₴</div>
+
+                @if (Model.Item1 != null && Model.Item1.Any())
+                {
+                    foreach (var product in Model.Item1)
+                    {
+                        <div class="product-preview">
+                            <div class="preview-image">
+                                @if (!string.IsNullOrEmpty(product.Photo))
+                                {
+                                    <img src="~/images/@product.Photo" alt="Фото" />
+                                }
+                                else
+                                {
+                                    <span>Немає</span>
+                                }
+                            </div>
+                            <div class="preview-info">
+                                <div class="product-name">@product.Name</div>
+                                <div class="product-price">@product.Price.ToString("N0") ₴</div>
+                            </div>
+
+                            <form controller="Products" action="ConfirmDelete" method="post">
+                                <input type="hidden" name="id" value="@product.Id" />
+                                <button type="submit" class="btn-delete">Видалити товар</button>
+                            </form>
+                        </div>
+                    }
+                }
+                else if (!string.IsNullOrEmpty(Model.Item3) || (Model.Item4.HasValue && Model.Item4 > 0))
+                {
+                    <div class="no-results">
+                        За вашим запитом товарів не знайдено.
                     </div>
-                    <button class="btn-delete">Видалити товар</button>
-                </div>
+                }
+
             </div>
         </main>
 

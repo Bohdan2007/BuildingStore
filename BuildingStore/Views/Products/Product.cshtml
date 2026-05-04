@@ -1,76 +1,89 @@
-﻿<!DOCTYPE html>
+﻿@model BuildingStore.Models.Product
+
+<!DOCTYPE html>
 <html lang="ua">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Z-Build - Картка товару</title>
-        <link rel="stylesheet" href="~/css/product.css" asp-append-version="true" />
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Z-Build - @Model.Name</title>
+    <link rel="stylesheet" href="~/css/product.css" asp-append-version="true" />
+</head>
+<body>
 
-        <div class="product-container">
+    <div class="product-container">
+        <header class="header">
+            <a href="/Products/Products" class="btn-back">До каталогу</a>
+        </header>
 
-            <header class="header">
-                <a href="/Products/Products" class="btn-back">До каталогу</a>
-            </header>
-
-            <main class="product-card">
-
-                <div class="top-section">
-                    <div class="left-column">
-                        <div class="image-placeholder">
-                            Фото товару
-                        </div>
-
-                        <div class="rating-section">
-                            <div class="stars">
-                                <span class="star active">★</span>
-                                <span class="star active">★</span>
-                                <span class="star active">★</span>
-                                <span class="star active">☆</span>
-                                <span class="star">☆</span>
-                            </div>
-                            <span class="rating-text">4.0 (12 відгуків)</span>
-                        </div>
+        <main class="product-card">
+            <div class="top-section">
+                <div class="left-column">
+                    <div class="image-placeholder">
+                        @if (!string.IsNullOrEmpty(Model.Photo))
+                        {
+                            <img src="~/images/@Model.Photo" alt="@Model.Name" class="product-img" />
+                        }
+                        else
+                        {
+                            <span>Фото товару</span>
+                        }
                     </div>
 
-                    <div class="right-column">
-                        <div class="description-block">
-                            <div class="label-text">Опис товару</div>
-                            <p class="description-text">
-                                Це детальний опис вашого товару. Тут ви можете розповісти про його характеристики, переваги та особливості використання. Відмінний вибір для професійних будівельників та домашнього ремонту.
-                            </p>
-
-                            <div class="price-block">
-                                <div class="price">4 500 ₴</div>
-                                <button class="btn-buy">Додати до кошика</button>
-                            </div>
+                    <div class="rating-section">
+                        <div class="stars">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <span class="star @(i <= Model.Rating ? "active" : "")">★</span>
+                            }
                         </div>
+                        <span class="rating-text">@Model.Rating.ToString("F1")</span>
                     </div>
                 </div>
 
-                <div class="bottom-section">
-                    <div class="label-text">Коментарі</div>
+                <div class="right-column">
+                    <div class="description-block">
+                        <h1 class="product-title">@Model.Name</h1>
 
-                    <div class="comments-list">
-                        <div class="comment">
-                            <span class="comment-author">Іван:</span>
-                            Відмінна якість, швидка доставка! Дуже задоволений покупкою.
-                        </div>
-                        <div class="comment">
-                            <span class="comment-author">Олексій:</span>
-                            Брав для ремонту квартири, працює без нарікань.
-                        </div>
-                    </div>
+                        <div class="label-text">Опис товару</div>
+                        <p class="description-text">@Model.Description</p>
 
-                    <div class="add-comment-block">
-                        <input type="text" placeholder="Напишіть свій відгук..." spellcheck="false" />
-                        <button class="btn-submit">Надіслати</button>
+                        <div class="price-block">
+                            <div class="price">@Model.Price.ToString("N0") ₴</div>
+
+                            <form controller="Basket" action="AddToBasket" method="post">
+                                <input type="hidden" name="productId" value="@Model.Id" />
+                                <button type="submit" class="btn-buy">Додати до кошика</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
+            </div>
 
-            </main>
-        </div>
+            <div class="bottom-section">
+                <div class="label-text">Коментарі</div>
 
-    </body>
-</html> 
+                <div class="comments-list">
+                    @if (Model.Reviews != null && Model.Reviews.Any())
+                    {
+                        foreach (var review in Model.Reviews)
+                        {
+                            <div class="comment">@review.Text</div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="no-reviews">Поки що немає відгуків. Будьте першим!</div>
+                    }
+                </div>
+
+                <form controller="Products" action="AddReview" method="post" class="add-comment-block">
+                    <input type="hidden" name="productId" value="@Model.Id" />
+                    <input type="text" name="text" placeholder="Напишіть свій відгук..." required spellcheck="false" />
+                    <button type="submit" class="btn-submit">Надіслати</button>
+                </form>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>

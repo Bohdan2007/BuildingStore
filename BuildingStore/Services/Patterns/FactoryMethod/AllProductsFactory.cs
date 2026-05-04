@@ -1,5 +1,4 @@
 ﻿using BuildingStore.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace BuildingStore.Services.Patterns.FactoryMethod
 {
@@ -7,7 +6,17 @@ namespace BuildingStore.Services.Patterns.FactoryMethod
     {
         public override List<Product> GetProducts(AppDbContext db)
         {
-            return db.Products.Include(p => p.Category).ToList();
+            var factories = new List<CategoryFactory>
+            {
+                new ToolsCategoryFactory(),
+                new MaterialsCategoryFactory(),
+                new PlumbingCategoryFactory(),
+                new ElectricalCategoryFactory(),
+                new RoofingCategoryFactory()
+            };
+
+            return factories.SelectMany(f => f.GetProducts(db)).ToList();
         }
     }
 }
+

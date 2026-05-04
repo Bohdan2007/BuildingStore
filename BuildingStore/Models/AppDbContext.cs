@@ -17,6 +17,10 @@ namespace BuildingStore.Models
             modelBuilder.Entity<User>().Property(u => u.Role).HasConversion<string>();
             modelBuilder.Entity<Order>().Property(o => o.OrderStatus).HasConversion<string>();
             modelBuilder.Entity<OrderItem>().Property(o => o.ProductStatus).HasConversion<string>();
+
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Order>().HasOne(o => o.User).WithMany(u => u.Orders).HasForeignKey(o => o.UserId).OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<Order>().HasOne(o => o.Admin).WithMany().HasForeignKey(o => o.AdminId).OnDelete(DeleteBehavior.SetNull);
         }
     }
 }

@@ -201,3 +201,11 @@ body {
 .btn-complete:hover {
     background-color: #008a3c;
 }
+
+.empty-orders-text {
+    text-align: center;
+    color: #888888;
+    font-size: 1.1vw;
+    font-weight: 400;
+    width: 100%; 
+}

@@ -9,7 +9,7 @@ namespace BuildingStore.Services.Patterns.FactoryMethod
         {
             foreach (var p in products)
             {
-                p.Description = $"[{badge}] {p.Description}";
+                p.Name = $"{p.Name} [{badge}]";
             }
         }
     }

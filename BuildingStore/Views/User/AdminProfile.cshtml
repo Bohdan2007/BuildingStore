@@ -1,74 +1,84 @@
 ﻿<!DOCTYPE html>
 <html lang="ua">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Панель Адміна - Z-Build</title>
-        <link rel="stylesheet" href="~/css/adminProfile.css" asp-append-version="true" />
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель Адміна - Z-Build</title>
+    <link rel="stylesheet" href="~/css/adminProfile.css" asp-append-version="true" />
+</head>
+<body>
 
-        <div class="admin-container">
+    <div class="admin-container">
+        <header class="admin-header">
+            <h1 class="title">Панель адміністратора</h1>
+            <a href="/Products/Products" class="btn-exit">Вийти</a>
+        </header>
 
-            <header class="admin-header">
-                <h1 class="title">Панель адміністратора</h1>
-                <a href="/Products/Products" class="btn-exit">Вийти</a>
-            </header>
+        <main class="admin-content">
+            <section class="user-info-card">
+                <div class="user-avatar">⚙️</div>
+                <div class="user-details">
+                    <div class="user-name">@Model.Name</div>
+                    <div class="user-email">@Model.Email</div>
+                </div>
+            </section>
 
-            <main class="admin-content">
+            <section class="management-section">
+                <h2 class="section-title">Управління магазином</h2>
+                <div class="management-grid">
+                    <a href="/Products/AddProduct" class="management-card add-card">
+                        <div class="card-icon">+</div>
+                        <div class="card-text">Додати новий товар</div>
+                    </a>
+                    <a href="/Products/DeleteProduct" class="management-card delete-card">
+                        <div class="card-icon">−</div>
+                        <div class="card-text">Видалити товар</div>
+                    </a>
+                </div>
+            </section>
 
-                <section class="user-info-card">
-                    <div class="user-avatar">⚙️</div>
-                    <div class="user-details">
-                        <div class="user-name">@Model.Name</div>
-                        <div class="user-email">@Model.Email</div>
-                    </div>
-                </section>
+            <section class="orders-section">
+                <h2 class="section-title">Товари в процесі обробки</h2>
 
-                <section class="management-section">
-                    <h2 class="section-title">Управління магазином</h2>
+                <div class="orders-list">
+                    @if (Model.Orders != null && Model.Orders.Count != 0)
+                    {
+                        @foreach (var order in Model.Orders)
+                        {
+                            @foreach (var item in order.OrderItems)
+                            {
+                                <div class="order-card">
+                                    <div class="order-info">
+                                        <div class="order-title">
+                                            @item.Product?.Name (@item.Quantity шт.)
+                                        </div>
+                                        <div class="order-details">
+                                            <strong>Клієнт:</strong> @(order.User?.Name ?? "Гість") •
+                                            <strong>Поштомат:</strong> @order.PostOfficeNumber •
+                                            <strong>Дата:</strong> @order.OrderDate.ToString("dd.MM.yyyy")
+                                        </div>
+                                        <div class="order-price">
+                                            @((item.Product?.Price * item.Quantity)?.ToString("N0")) ₴
+                                        </div>
+                                    </div>
 
-                    <div class="management-grid">
-                        <a href="/Products/AddProduct" class="management-card add-card">
-                            <div class="card-icon">+</div>
-                            <div class="card-text">Додати новий товар</div>
-                        </a>
+                                    <form controller="User" action="CompleteItem" method="post">
+                                        <input type="hidden" name="orderItemId" value="@item.Id" />
+                                        <input type="hidden" name="adminEmail" value="@Model.Email" />
+                                        <button type="submit" class="btn-complete">Виконати</button>
+                                    </form>
+                                </div>
+                            }
+                        }
+                    }
+                    else
+                    {
+                        <p class="empty-orders-text">Наразі немає товарів, які очікують на виконання.</p>
+                    }
+                </div>
+            </section>
+        </main>
+    </div>
 
-                        <a href="/Products/DeleteProduct" class="management-card delete-card">
-                            <div class="card-icon">−</div>
-                            <div class="card-text">Видалити товар</div>
-                        </a>
-                    </div>
-                </section>
-
-                <section class="orders-section">
-                    <h2 class="section-title">Нові заявки</h2>
-
-                    <div class="orders-list">
-
-                        <div class="order-card">
-                            <div class="order-info">
-                                <div class="order-title">Замовлення №1042</div>
-                            <div class="order-details">Клієнт: Петро Михайленко • 2 товари. Поштомат №5095</div>
-                                <div class="order-price">8 500 ₴</div>
-                            </div>
-                            <button class="btn-complete">Виконано</button>
-                        </div>
-
-                        <div class="order-card">
-                            <div class="order-info">
-                                <div class="order-title">Замовлення №1043</div>
-                                <div class="order-details">Клієнт: Олена Коваленко • 1 товар. Поштомат №5095 </div>
-                                <div class="order-price">3 200 ₴</div>
-                            </div>
-                            <button class="btn-complete">Виконано</button>
-                        </div>
-
-                    </div>
-                </section>
-
-            </main>
-        </div>
-
-    </body>
+</body>
 </html>

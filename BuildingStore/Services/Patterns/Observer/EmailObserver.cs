@@ -17,7 +17,7 @@ namespace BuildingStore.Services.Patterns.Observer
             {
                 string targetEmail = order.User.Email;
 
-                documentGenerator.GenerateAndSend(order, targetEmail);
+               //documentGenerator.GenerateAndSend(order, targetEmail);
             }
         }
     }

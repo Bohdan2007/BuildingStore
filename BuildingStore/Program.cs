@@ -1,5 +1,7 @@
 using BuildingStore.Models;
 using BuildingStore.Services.BusinessLogic;
+using BuildingStore.Services.Patterns.Bridge;
+using BuildingStore.Services.Patterns.Observer;
 using BuildingStore.Services.Patterns.Proxy;
 using BuildingStore.Services.Patterns.Proxy.ProtectionProxy;
 
@@ -20,6 +22,12 @@ namespace BuildingStore
             builder.Services.AddScoped<IAdminLoginProxy, ProtectionAdminProxy>();
             builder.Services.AddScoped<RealAdminLoginProxy>();
             builder.Services.AddScoped<UserService>();
+            builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+            builder.Services.AddTransient<IDocumentSenderBridge, SmtpEmailSenderBridge>();
+            builder.Services.AddTransient<OrderDocumentBridge, ReceiptDocumentBridge>();
+            builder.Services.AddScoped<IOrderObserver, DatabaseObserver>();
+            builder.Services.AddScoped<IOrderObserver, EmailObserver>();
+            builder.Services.AddScoped<ProductService>();
 
             var app = builder.Build();
 

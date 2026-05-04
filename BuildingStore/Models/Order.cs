@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BuildingStore.Models 
 {
@@ -22,6 +23,9 @@ namespace BuildingStore.Models
 
         public int UserId { get; set; }
         public User? User { get; set; }
+
+        public int? AdminId { get; set; }
+        public User? Admin { get; set; }
 
         public List<OrderItem> OrderItems { get; set; } = new();
     }

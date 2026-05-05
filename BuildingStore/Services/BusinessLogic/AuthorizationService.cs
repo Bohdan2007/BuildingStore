@@ -19,7 +19,7 @@ namespace BuildingStore.Services.BusinessLogic
             }
             
             var existUser = appDbContext.Users.FirstOrDefault(u => u.Email == email);
-            if (existUser == null || existUser.Password != password)
+            if (existUser == null || existUser.Password != HashPassword(password))
             {
                 return false;
             }
@@ -39,7 +39,7 @@ namespace BuildingStore.Services.BusinessLogic
                 return false;
             }
             
-            User user = new User { Name = name, Email = email, Password = password, Role = UserRole.User };
+            User user = new User { Name = name, Email = email, Password = HashPassword(password), Role = UserRole.User };
 
             appDbContext.Users.Add(user);
             appDbContext.SaveChanges();
@@ -49,6 +49,29 @@ namespace BuildingStore.Services.BusinessLogic
         public bool IsSignIn(string email)
         {
             return appDbContext.Users.Any(u => u.Email == email);
+        }
+        private string HashPassword(string password)
+        {
+            long hashCode = 0L;
+
+            for (int i = 0; i < password.Length; i++)
+            {
+                hashCode += (password[i] * 31) * i * i;
+            }
+
+            byte numberConvert = 16;
+            char[] arrayConvert = { 'A', 'v', '@', '1', '~', '&', 'о', 'f', 'м', ')', '-', 'К', '$', 'q', '#', '3' };
+            string hashPassword = "";
+            byte index = 0;
+
+            for (byte i = 0; i < numberConvert; i++)
+            {
+                index = (byte)(hashCode % numberConvert);
+                hashPassword += arrayConvert[index];
+                hashCode = hashCode - ((numberConvert - i) * (numberConvert - i));
+            }
+
+            return hashPassword;
         }
     }
 }

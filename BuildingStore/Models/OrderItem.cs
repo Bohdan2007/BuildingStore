@@ -12,6 +12,9 @@ namespace BuildingStore.Models
         public int Quantity { get; set; }
 
         [Required]
+        public decimal Price { get; set; }
+
+        [Required]
         public ProductStatus ProductStatus { get; set; } = ProductStatus.Created;
 
         public int OrderId { get; set; }

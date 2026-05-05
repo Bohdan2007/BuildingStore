@@ -1,57 +1,62 @@
-﻿<!DOCTYPE html>
-    <html lang="ua">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Оплата - Z-Build</title>
-        <link rel="stylesheet" href="~/css/payment.css" asp-append-version="true" />
-    </head>
-    <body>
+﻿@model BuildingStore.Models.Order
 
-        <div class="payment-container">
-            <div class="payment-form">
+<!DOCTYPE html>
+<html lang="ua">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оплата - Z-Build</title>
+    <link rel="stylesheet" href="~/css/payment.css" asp-append-version="true" />
+</head>
+<body>
 
-                <div class="payment-header">
-                    <div class="label-text">Оплата замовлення</div>
-                    <div class="total-price">До сплати: 4 500 ₴</div>
-                </div>
+    <div class="payment-container">
+        <form asp-controller="Basket" asp-action="Payment" method="post" class="payment-form">
 
-                <div class="error-message">
-                    Помилка: Користувача з таким ПІБ не знайдено. Спочатку зареєструйтесь.
-                </div>
-
-                <div class="input-group">
-                    <label>ПІБ власника</label>
-                    <input type="text" spellcheck="false" placeholder="Введіть ваше ПІБ" />
-                </div>
-
-                <div class="input-group">
-                    <label>Номер поштомату</label>
-                    <input type="text" placeholder="Введіть номер поштомату" />
-                </div>
-
-                <div class="input-group">
-                    <label>Номер картки</label>
-                    <input type="text" placeholder="0000 0000 0000 0000" maxlength="19" />
-                </div>
-
-                <div class="row-inputs">
-                    <div class="input-group">
-                        <label>Термін дії</label>
-                        <input type="text" placeholder="ММ / РР" maxlength="5" />
-                    </div>
-                    <div class="input-group">
-                        <label>CVV</label>
-                        <input type="password" placeholder="***" maxlength="3" />
-                    </div>
-                </div>
-
-                <a href="/Basket/Success" class="btn-pay">Підтвердити та оплатити</a>
-
-                <a href="/Basket/Basket" class="btn-back">Скасувати та повернутися</a>
-
+            <div class="payment-header">
+                <div class="label-text">Оплата замовлення</div>
+                <div class="total-price">До сплати: @(Model?.TotalAmount.ToString("N0") ?? "0") ₴</div>
             </div>
-        </div>
 
-    </body>
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="error-message">
+                    @ViewData.ModelState.Values.SelectMany(v => v.Errors).FirstOrDefault()?.ErrorMessage
+                </div>
+            }
+
+            <div class="input-group">
+                <label>Email власника</label>
+                <input name="email" type="text" spellcheck="false" placeholder="Введіть ваш email" />
+            </div>
+
+            <div class="input-group">
+                <label>Номер поштомату</label>
+                <input name="postOfficeNumber" type="text" placeholder="Введіть номер поштомату" />
+            </div>
+
+            <div class="input-group">
+                <label>Номер картки</label>
+                <input name="cardNumber" type="text" placeholder="0000 0000 0000 0000" maxlength="19" />
+            </div>
+
+            <div class="row-inputs">
+                <div class="input-group">
+                    <label>Термін дії</label>
+                    <input name="expiryDate" type="text" placeholder="ММ / РР" maxlength="5" />
+                </div>
+                <div class="input-group">
+                    <label>CVV</label>
+                    <input name="cvv" type="password" placeholder="***" maxlength="3" />
+                </div>
+            </div>
+
+            <button type="submit" class="btn-pay">Підтвердити та оплатити</button>
+
+            <a href="/Basket/Basket" class="btn-back">Скасувати та повернутися</a>
+
+        </form>
+    </div>
+
+</body>
 </html>

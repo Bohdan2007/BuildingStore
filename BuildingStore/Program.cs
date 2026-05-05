@@ -22,12 +22,13 @@ namespace BuildingStore
             builder.Services.AddScoped<IAdminLoginProxy, ProtectionAdminProxy>();
             builder.Services.AddScoped<RealAdminLoginProxy>();
             builder.Services.AddScoped<UserService>();
-            builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+            builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Logging:EmailSettings"));
             builder.Services.AddTransient<IDocumentSenderBridge, SmtpEmailSenderBridge>();
             builder.Services.AddTransient<OrderDocumentBridge, ReceiptDocumentBridge>();
             builder.Services.AddScoped<IOrderObserver, DatabaseObserver>();
             builder.Services.AddScoped<IOrderObserver, EmailObserver>();
             builder.Services.AddScoped<ProductService>();
+            builder.Services.AddScoped<BasketService>();
 
             var app = builder.Build();
 

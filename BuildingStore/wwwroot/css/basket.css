@@ -183,3 +183,50 @@ body {
 .btn-checkout:hover {
     background-color: #008a3c;
 }
+
+/* Керування формами кнопок (щоб не ламали flexbox) */
+.action-form {
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+}
+
+/* Зображення товарів */
+.item-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 0.5vw;
+}
+
+/* Блок знижок */
+.discount-container {
+    margin-bottom: 1.5vh;
+    text-align: right;
+}
+
+.discount-label {
+    color: #00a046;
+    font-size: 1vw;
+    font-weight: bold;
+}
+
+.old-price-strikethrough {
+    text-decoration: line-through;
+    color: #94a3b8;
+    margin-left: 0.5vw;
+}
+
+.normal-price {
+    color: #666;
+}
+
+/* Повідомлення про порожній кошик */
+.empty-cart-msg {
+    text-align: center;
+    padding: 5vh;
+    color: #64748b;
+    font-size: 1.2vw;
+    font-weight: 500;
+}

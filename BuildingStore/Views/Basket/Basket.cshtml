@@ -1,54 +1,115 @@
-﻿<!DOCTYPE html>
+﻿@model BuildingStore.Models.Order
+
+<!DOCTYPE html>
 <html lang="ua">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Кошик - Z-Build</title>
-        <link rel="stylesheet" href="~/css/basket.css" asp-append-version="true" />
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Кошик - Z-Build</title>
+    <link rel="stylesheet" href="~/css/basket.css" asp-append-version="true" />
+</head>
+<body>
 
-        <div class="cart-container">
+    <div class="cart-container">
 
-            <header class="header">
-                <a href="/Products/Products" class="btn-back"> Продовжити покупки</a>
-                <h1 class="label-text">Кошик</h1>
-            </header>
+        <header class="header">
+            <a href="/Products/Products" class="btn-back">Продовжити покупки</a>
+            <h1 class="label-text">Кошик</h1>
+        </header>
 
-            <main class="cart-content">
+        <main class="cart-content">
 
-                <div class="cart-items">
-                    <div class="cart-item">
-                        <div class="item-image">Фото</div>
-                        <div class="item-info">
-                            <div class="item-name">Професійний перфоратор Z-100</div>
-                            <div class="item-details">Код: 12345</div>
+            <div class="cart-items">
+                @if (Model != null && Model.OrderItems != null && Model.OrderItems.Any())
+                {
+                    foreach (var item in Model.OrderItems)
+                    {
+                        <div class="cart-item">
+                            <div class="item-image">
+                                @if (item.Product != null && !string.IsNullOrEmpty(item.Product.Photo))
+                                {
+                                    <img src="~/images/@item.Product.Photo" alt="@item.Product.Name" />
+                                }
+                                else
+                                {
+                                    <span>Фото</span>
+                                }
+                            </div>
+                            <div class="item-info">
+                                <div class="item-name">@item.Product?.Name</div>
+                                <div class="item-details">Код: @item.Product?.Id</div>
+                            </div>
+                            <div class="item-quantity">
+                                <form asp-controller="Basket" asp-action="Decrease" method="post" class="action-form">
+                                    <input type="hidden" name="itemId" value="@item.Id" />
+                                    <button type="submit" class="qty-btn">-</button>
+                                </form>
+
+                                <span>@item.Quantity</span>
+
+                                <form asp-controller="Basket" asp-action="Increase" method="post" class="action-form">
+                                    <input type="hidden" name="itemId" value="@item.Id" />
+                                    <button type="submit" class="qty-btn">+</button>
+                                </form>
+                            </div>
+
+                            <div class="item-price">@((item.Price * item.Quantity).ToString("N0")) ₴</div>
+
+                            <form asp-controller="Basket" asp-action="Remove" method="post" class="action-form">
+                                <input type="hidden" name="itemId" value="@item.Id" />
+                                <button type="submit" class="btn-remove">✕</button>
+                            </form>
                         </div>
-                        <div class="item-quantity">
-                            <button class="qty-btn">-</button>
-                            <span>1</span>
-                            <button class="qty-btn">+</button>
-                        </div>
-                        <div class="item-price">4 500 ₴</div>
-                        <button class="btn-remove">✕</button>
+                    }
+                }
+                else
+                {
+                    <div class="empty-cart-msg">
+                        Ваш кошик порожній.
                     </div>
+                }
+            </div>
+
+            <aside class="cart-summary">
+                <div class="summary-title">Разом до сплати</div>
+
+                @{
+                    int totalItems = Model?.OrderItems?.Sum(i => i.Quantity) ?? 0;
+                    decimal baseAmount = Model?.OrderItems?.Sum(i => i.Price * i.Quantity) ?? 0;
+                    decimal totalAmount = Model?.TotalAmount ?? 0;
+                }
+
+                <div class="summary-row">
+                    <span>Товари (@totalItems)</span>
+                    <span class="@(baseAmount > totalAmount ? "old-price-strikethrough" : "normal-price")">
+                        @baseAmount.ToString("N0") ₴
+                    </span>
                 </div>
 
-                <aside class="cart-summary">
-                    <div class="summary-title">Разом до сплати</div>
-                    <div class="summary-row">
-                        <span>Товари (1)</span>
-                        <span>4 500 ₴</span>
+                @if (baseAmount > totalAmount)
+                {
+                    <div class="discount-container">
+                        <span class="discount-label">Знижка на чек: -@((baseAmount - totalAmount).ToString("N0")) ₴</span>
                     </div>
-                    <div class="summary-row total">
-                        <span>Підсумок</span>
-                        <span class="total-price">4 500 ₴</span>
-                    </div>
+                }
+
+                <div class="summary-row total">
+                    <span>Підсумок</span>
+                    <span class="total-price">@totalAmount.ToString("N0") ₴</span>
+                </div>
+
+                @if (totalItems > 0)
+                {
                     <a href="/Basket/Payment" class="btn-checkout">Оформити замовлення</a>
-                </aside>
+                }
+                else
+                {
+                    <button disabled class="btn-checkout" style="background-color: #ccc; cursor: not-allowed;">Оформити замовлення</button>
+                }
+            </aside>
 
-            </main>
-        </div>
+        </main>
+    </div>
 
-    </body>
+</body>
 </html>

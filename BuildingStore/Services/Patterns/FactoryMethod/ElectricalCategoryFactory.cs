@@ -1,4 +1,5 @@
 ﻿using BuildingStore.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BuildingStore.Services.Patterns.FactoryMethod
 {
@@ -6,7 +7,7 @@ namespace BuildingStore.Services.Patterns.FactoryMethod
     {
         public override List<Product> GetProducts(AppDbContext db)
         {
-            var products = db.Products.Where(p => p.CategoryId == (byte)EnumCategories.Electrical).ToList();
+            var products = db.Products.AsNoTracking().Where(p => p.CategoryId == (byte)EnumCategories.Electrical).ToList();
             foreach (var p in products)
             {
                 p.Price *= 1.10m; 

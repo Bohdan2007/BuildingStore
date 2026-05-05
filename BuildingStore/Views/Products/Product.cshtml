@@ -50,7 +50,7 @@
                         <div class="price-block">
                             <div class="price">@Model.Price.ToString("N0") ₴</div>
 
-                            <form controller="Basket" action="AddToBasket" method="post">
+                            <form asp-controller="Basket" asp-action="AddToBasket" method="post">
                                 <input type="hidden" name="productId" value="@Model.Id" />
                                 <button type="submit" class="btn-buy">Додати до кошика</button>
                             </form>
@@ -76,7 +76,7 @@
                     }
                 </div>
 
-                <form controller="Products" action="AddReview" method="post" class="add-comment-block">
+                <form asp-controller="Products" asp-action="AddReview" method="post" class="add-comment-block">
                     <input type="hidden" name="productId" value="@Model.Id" />
                     <input type="text" name="text" placeholder="Напишіть свій відгук..." required spellcheck="false" />
                     <button type="submit" class="btn-submit">Надіслати</button>

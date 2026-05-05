@@ -68,7 +68,7 @@ namespace BuildingStore.Services.BusinessLogic
         }
         public Product GetProductDetails(int id)
         {
-            var product = appDbContext.Products.Include(p => p.Reviews).FirstOrDefault(p => p.Id == id);
+            var product = appDbContext.Products.AsNoTracking().Include(p => p.Reviews).FirstOrDefault(p => p.Id == id);
 
             if (product == null) return null;
 

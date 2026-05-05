@@ -15,9 +15,14 @@ namespace BuildingStore.Services.Patterns.Observer
         {
             if (order.OrderStatus == OrderStatus.Completed)
             {
-                string targetEmail = order.User.Email;
+                string targetEmail = order.User?.Email;
 
-               //documentGenerator.GenerateAndSend(order, targetEmail);
+                Console.WriteLine(targetEmail);
+                
+                if (!string.IsNullOrEmpty(targetEmail))
+                {
+                    documentGenerator.GenerateAndSend(order, targetEmail);
+                }
             }
         }
     }

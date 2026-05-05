@@ -58,7 +58,7 @@
                                             <strong>Дата:</strong> @order.OrderDate.ToString("dd.MM.yyyy")
                                         </div>
                                         <div class="order-price">
-                                            @((item.Product?.Price * item.Quantity)?.ToString("N0")) ₴
+                                            @((item.Price * item.Quantity)?.ToString("N0")) ₴
                                         </div>
                                     </div>
 

@@ -13,7 +13,7 @@
         <a href="/Products/Products" class="logo">Z-Build</a>
 
         <div class="search-bar">
-            <form controller="Products" action="Products" method="get" class="search-form">
+            <form asp-controller="Products" asp-action="Products" method="get" class="search-form">
                 <input type="hidden" name="categoryId" value="@Model.CategoryId" />
                 <input type="text" name="searchName" value="@Model.SearchName" placeholder="Шукайте товар...">
                 <button type="submit" class="hidden-submit"></button>
@@ -29,7 +29,7 @@
     <main>
         <aside class="sidebar">
             <h3>Категорії</h3>
-            <form controller="Products" action="Products" method="get" class="categories-form">
+            <form asp-controller="Products" asp-action="Products" method="get" class="categories-form">
                 <input type="hidden" name="searchName" value="@Model.SearchName" />
 
                 <button type="submit" name="categoryId" value="" class="category-link">
@@ -71,7 +71,7 @@
 
                         <div class="product-price">@product.Price.ToString("N0") ₴</div>
 
-                        <form controller="Basket" action="AddToBasket" method="post" class="buy-form">
+                        <form asp-controller="Basket" asp-action="AddToBasket" method="post" class="buy-form">
                             <input type="hidden" name="productId" value="@product.Id" />
                             <button type="submit" class="btn-buy">Додати до кошика</button>
                         </form>

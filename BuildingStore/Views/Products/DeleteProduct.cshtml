@@ -18,7 +18,7 @@
         </header>
 
         <main class="management-card">
-            <form method="get" controller="Products" action="DeleteProduct" class="search-section">
+            <form method="get" asp-controller="Products" asp-action="DeleteProduct" class="search-section">
                 <div class="row-inputs">
                     <div class="input-group">
                         <label>Категорія</label>
@@ -67,7 +67,7 @@
                                 <div class="product-price">@product.Price.ToString("N0") ₴</div>
                             </div>
 
-                            <form controller="Products" action="ConfirmDelete" method="post">
+                            <form asp-controller="Products" asp-action="ConfirmDelete" method="post">
                                 <input type="hidden" name="id" value="@product.Id" />
                                 <button type="submit" class="btn-delete">Видалити товар</button>
                             </form>

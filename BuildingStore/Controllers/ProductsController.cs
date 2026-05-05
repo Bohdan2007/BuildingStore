@@ -1,7 +1,6 @@
 using BuildingStore.Models;
 using BuildingStore.Services.BusinessLogic;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Hosting; // Потрібно для роботи з wwwroot
 
 namespace BuildingStore.Controllers
 {

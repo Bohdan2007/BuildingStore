@@ -8,19 +8,19 @@ namespace BuildingStore.Services.BusinessLogic
     public class UserService
     {
         private readonly AppDbContext appDbContext;
-        private readonly List<IOrderObserver> observers = new();
+        private readonly IEnumerable<IOrderObserver> observers;
 
-        public UserService(AppDbContext appDbContext)
+        public UserService(AppDbContext appDbContext, IEnumerable<IOrderObserver> observers)
         {
             this.appDbContext = appDbContext;
-            observers.Add(new DatabaseObserver(appDbContext));
+            this.observers = observers;
         }
 
         public User FindUser(string email)
         {
             var user = appDbContext.Users.Include(u => u.Orders.Where(o => o.OrderStatus == OrderStatus.Completed)).ThenInclude(o => o.OrderItems).ThenInclude(oi => oi.Product).FirstOrDefault(u => u.Email == email);
 
-            return user ?? new User { Name = "Користувач", Email = "user@gmail.com", Orders = new List<Order>() };
+            return user;
         }
         public User FindAdmin(string email)
         {
@@ -31,7 +31,7 @@ namespace BuildingStore.Services.BusinessLogic
                 admin.Orders = appDbContext.Orders.Include(o => o.User).Include(o => o.OrderItems.Where(i => i.ProductStatus == ProductStatus.Processing)).ThenInclude(oi => oi.Product).Where(o => (o.AdminId == null || o.AdminId == admin.Id) && o.OrderItems.Any(i => i.ProductStatus == ProductStatus.Processing)).ToList();
             }
 
-            return admin ?? new User { Name = "Адмін", Email = "admin@gmail.com", Orders = new List<Order>() };
+            return admin;
         }
         public void RemoveItemFromOrder(int orderItemId)
         {

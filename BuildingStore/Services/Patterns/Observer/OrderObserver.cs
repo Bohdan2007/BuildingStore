@@ -2,8 +2,8 @@
 
 namespace BuildingStore.Services.Patterns.Observer
 {
-    public interface IOrderObserver
+    public abstract class OrderObserver
     {
-        void OrderChanged(Order order);
+        public abstract void Update(Order order);
     }
 }

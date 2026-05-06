@@ -2,10 +2,10 @@
 
 namespace BuildingStore.Services.Patterns.State
 {
-    public class CompletedState : IOrderItemState
+    public class CompletedState : OrderItemState
     {
-        public void Cancel(OrderItem item) => throw new InvalidOperationException("Товар вже доставлено.");
-        public void Pay(OrderItem item) => throw new InvalidOperationException("Товар вже оплачено.");
-        public void Complete(OrderItem item) => throw new InvalidOperationException("Вже виконано.");
+        public override bool Cancel() => false; 
+        public override bool Pay() => false; 
+        public override bool Complete() => false;
     }
 }

@@ -35,9 +35,9 @@ namespace BuildingStore.Services.Patterns.Bridge
                 client.Send(message);
                 client.Disconnect(true);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine($"[EMAIL ERROR] Помилка відправки: {ex.Message}");
+                Console.WriteLine($"Помилка відправки");
             }
         }
     }

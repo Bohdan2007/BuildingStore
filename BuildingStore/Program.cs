@@ -25,8 +25,8 @@ namespace BuildingStore
             builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("Logging:EmailSettings"));
             builder.Services.AddTransient<IDocumentSenderBridge, SmtpEmailSenderBridge>();
             builder.Services.AddTransient<OrderDocumentBridge, ReceiptDocumentBridge>();
-            builder.Services.AddScoped<IOrderObserver, DatabaseObserver>();
-            builder.Services.AddScoped<IOrderObserver, EmailObserver>();
+            builder.Services.AddScoped<OrderObserver, DatabaseObserver>();
+            builder.Services.AddScoped<OrderObserver, EmailObserver>();
             builder.Services.AddScoped<ProductService>();
             builder.Services.AddScoped<BasketService>();
 

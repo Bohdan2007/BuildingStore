@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model BuildingStore.Models.User
+<!DOCTYPE html>
 <html lang="ua">
 <head>
     <meta charset="UTF-8">
@@ -26,11 +27,11 @@
             <section class="management-section">
                 <h2 class="section-title">Управління магазином</h2>
                 <div class="management-grid">
-                    <a href="/Products/AddProduct" class="management-card add-card">
+                    <a href="/Products/AddProduct?adminEmail=@Model.Email" class="management-card add-card">
                         <div class="card-icon">+</div>
                         <div class="card-text">Додати новий товар</div>
                     </a>
-                    <a href="/Products/DeleteProduct" class="management-card delete-card">
+                    <a href="/Products/DeleteProduct?adminEmail=@Model.Email" class="management-card delete-card">
                         <div class="card-icon">−</div>
                         <div class="card-text">Видалити товар</div>
                     </a>
@@ -58,11 +59,11 @@
                                             <strong>Дата:</strong> @order.OrderDate.ToString("dd.MM.yyyy")
                                         </div>
                                         <div class="order-price">
-                                            @((item.Price * item.Quantity)?.ToString("N0")) ₴
+                                            @((item.Price * item.Quantity).ToString("N0")) ₴
                                         </div>
                                     </div>
 
-                                    <form controller="User" action="CompleteItem" method="post">
+                                    <form asp-controller="User" asp-action="CompleteItem" method="post">
                                         <input type="hidden" name="orderItemId" value="@item.Id" />
                                         <input type="hidden" name="adminEmail" value="@Model.Email" />
                                         <button type="submit" class="btn-complete">Виконати</button>

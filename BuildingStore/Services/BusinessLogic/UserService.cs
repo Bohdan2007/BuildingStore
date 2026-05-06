@@ -5,27 +5,27 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BuildingStore.Services.BusinessLogic
 {
-    public class UserService
+    public class UserService : OrderSubject
     {
         private readonly AppDbContext appDbContext;
-        private readonly IEnumerable<IOrderObserver> observers;
 
-        public UserService(AppDbContext appDbContext, IEnumerable<IOrderObserver> observers)
+        public UserService(AppDbContext appDbContext, IEnumerable<OrderObserver> observers)
         {
             this.appDbContext = appDbContext;
-            this.observers = observers;
+
+            foreach (var observer in observers)
+            {
+                Attach(observer);
+            }
         }
 
-        public User FindUser(string email)
+        public User FindUser(string email) 
         {
-            var user = appDbContext.Users.Include(u => u.Orders.Where(o => o.OrderStatus == OrderStatus.Completed)).ThenInclude(o => o.OrderItems).ThenInclude(oi => oi.Product).FirstOrDefault(u => u.Email == email);
-
-            return user;
+            return appDbContext.Users.Include(u => u.Orders.Where(o => o.OrderStatus == OrderStatus.Completed)).ThenInclude(o => o.OrderItems).ThenInclude(oi => oi.Product).FirstOrDefault(u => u.Email == email);
         }
         public User FindAdmin(string email)
         {
             var admin = appDbContext.Users.FirstOrDefault(u => u.Email == email);
-
             if (admin != null)
             {
                 admin.Orders = appDbContext.Orders.Include(o => o.User).Include(o => o.OrderItems.Where(i => i.ProductStatus == ProductStatus.Processing)).ThenInclude(oi => oi.Product).Where(o => (o.AdminId == null || o.AdminId == admin.Id) && o.OrderItems.Any(i => i.ProductStatus == ProductStatus.Processing)).ToList();
@@ -39,48 +39,30 @@ namespace BuildingStore.Services.BusinessLogic
 
             if (item != null)
             {
-                var state = GetCurrentState(item.ProductStatus);
-                state.Cancel(item); 
+                var itemContext = new OrderItemContext(item);
 
-                appDbContext.OrderItems.Remove(item);
-                appDbContext.SaveChanges();
-
-                NotifyObservers(item.Order);
+                if (itemContext.Cancel())
+                {
+                    var order = item.Order;
+                    appDbContext.OrderItems.Remove(item);
+                    appDbContext.SaveChanges();
+                    Notify(order);
+                }
             }
         }
         public void CompleteOrderItemAdmin(int orderItemId)
         {
-            var item = appDbContext.OrderItems.Include(i => i.Order).ThenInclude(o => o.User) .Include(i => i.Order).ThenInclude(o => o.OrderItems).ThenInclude(oi => oi.Product) .FirstOrDefault(i => i.Id == orderItemId);
+            var item = appDbContext.OrderItems.Include(i => i.Order).ThenInclude(o => o.User).Include(i => i.Order).ThenInclude(o => o.OrderItems).ThenInclude(oi => oi.Product).FirstOrDefault(i => i.Id == orderItemId);
 
             if (item != null)
             {
-                var state = GetCurrentState(item.ProductStatus);
+                var itemContext = new OrderItemContext(item);
 
-                state.Complete(item);
-                appDbContext.SaveChanges();
-
-                NotifyObservers(item.Order);
-            }
-        }
-        private IOrderItemState GetCurrentState(ProductStatus status)
-        {
-            switch (status)
-            {
-                case ProductStatus.Created:
-                    return new CreatedState();
-                case ProductStatus.Processing:
-                    return new ProcessingState();
-                case ProductStatus.Completed:
-                    return new CompletedState();
-                default:
-                    throw new ArgumentException("Невідомий статус товару");
-            }
-        }
-        private void NotifyObservers(Order order)
-        {
-            foreach (var observer in observers)
-            {
-                observer.OrderChanged(order);
+                if (itemContext.Complete())
+                {
+                    appDbContext.SaveChanges();
+                    Notify(item.Order);
+                }
             }
         }
     }

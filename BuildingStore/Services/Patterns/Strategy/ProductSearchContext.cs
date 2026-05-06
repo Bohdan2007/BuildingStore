@@ -6,9 +6,27 @@ namespace BuildingStore.Services.Patterns.Strategy
     {
         private IProductSearchStrategy strategy;
 
-        public void SetStrategy(IProductSearchStrategy strategy)
+        public ProductSearchContext(string searchName, int? categoryId)
         {
-            this.strategy = strategy;
+            bool hasName = !string.IsNullOrWhiteSpace(searchName);
+            bool hasCategory = categoryId.HasValue && categoryId > 0;
+
+            if (hasName && hasCategory)
+            {
+                strategy = new CombinedSearchStrategy();
+            }
+            else if (hasName)
+            {
+                strategy = new SearchByNameStrategy();
+            }
+            else if (hasCategory)
+            {
+                strategy = new SearchByCategoryStrategy();
+            }
+            else
+            {
+                strategy = new DefaultSearchStrategy();
+            }
         }
         public List<Product> ExecuteSearch(List<Product> products, string searchName, int? categoryId)
         {

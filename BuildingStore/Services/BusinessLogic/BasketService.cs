@@ -1,48 +1,42 @@
 ﻿using BuildingStore.Models;
 using BuildingStore.Services.Patterns.Decorator;
+using BuildingStore.Services.Patterns.Observer;
 using BuildingStore.Services.Patterns.State;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace BuildingStore.Services.BusinessLogic
 {
-    public class BasketService
+    public class BasketService : OrderSubject
     {
         private readonly AppDbContext appDbContext;
         private readonly ProductService productService;
-        private static int lastAdminIndex = 0; 
+        private static int lastAdminIndex = 0;
 
-        public BasketService(AppDbContext context, ProductService productService)
+        public BasketService(AppDbContext context, ProductService productService, IEnumerable<OrderObserver> observers)
         {
             appDbContext = context;
             this.productService = productService;
+
+            foreach (var observer in observers)
+            {
+                Attach(observer);
+            }
         }
 
-        private IOrderItemState GetState(ProductStatus status)
-        {
-            switch (status) 
-            {
-                case ProductStatus.Created:
-                    return new CreatedState();
-                case ProductStatus.Processing:
-                    return new ProcessingState();
-                case ProductStatus.Completed:
-                    return new CompletedState();
-                default:
-                    throw new Exception("Невідомий стан");
-            }       
-        }
         public string GetUserEmail(ClaimsPrincipal userPrincipal)
         {
             if (userPrincipal.Identity != null && userPrincipal.Identity.IsAuthenticated)
             {
                 return userPrincipal.Identity.Name;
             }
-            return appDbContext.Users.FirstOrDefault()?.Email ?? "guest@test.com";
+
+            return appDbContext.Users.FirstOrDefault()?.Email;
         }
         public Order GetOrCreateBasketOrder(string userEmail)
         {
             var user = appDbContext.Users.FirstOrDefault(u => u.Email == userEmail);
+            
             if (user == null) 
             {
                 return null;
@@ -52,15 +46,14 @@ namespace BuildingStore.Services.BusinessLogic
 
             if (order == null)
             {
-                order = new Order
+                appDbContext.Orders.Add(new Order
                 {
                     UserId = user.Id,
                     OrderStatus = OrderStatus.Processing,
                     OrderDate = DateTime.UtcNow,
                     TotalAmount = 0,
                     PostOfficeNumber = "Чернетка"
-                };
-                appDbContext.Orders.Add(order);
+                });
                 appDbContext.SaveChanges();
             }
 
@@ -70,19 +63,18 @@ namespace BuildingStore.Services.BusinessLogic
         {
             var order = GetOrCreateBasketOrder(userEmail);
             if (order == null) 
-            { 
-                return; 
+            {
+                return;
             }
 
             var productWithFactoryPrice = productService.GetProductDetails(productId);
             if (productWithFactoryPrice == null) 
-            { 
-                return; 
+            {
+                return;
             }
 
             var existingItem = appDbContext.OrderItems.FirstOrDefault(oi => oi.OrderId == order.Id && oi.ProductId == productId);
-
-            if (existingItem != null)
+            if (existingItem != null) 
             {
                 existingItem.Quantity++;
             }
@@ -93,7 +85,7 @@ namespace BuildingStore.Services.BusinessLogic
                     OrderId = order.Id,
                     ProductId = productId,
                     Quantity = 1,
-                    Price = productWithFactoryPrice.Price, 
+                    Price = productWithFactoryPrice.Price,
                     ProductStatus = ProductStatus.Created
                 });
             }
@@ -118,47 +110,35 @@ namespace BuildingStore.Services.BusinessLogic
             var item = appDbContext.OrderItems.FirstOrDefault(oi => oi.Id == itemId);
             if (item != null)
             {
-                var state = GetState(item.ProductStatus);
-                state.Cancel(item); 
-
-                int orderId = item.OrderId;
-                appDbContext.OrderItems.Remove(item);
-                appDbContext.SaveChanges();
-                RecalculateTotal(orderId, userEmail);
+                var itemContext = new OrderItemContext(item);
+                if (itemContext.Cancel())
+                {
+                    int orderId = item.OrderId;
+                    appDbContext.OrderItems.Remove(item);
+                    appDbContext.SaveChanges();
+                    RecalculateTotal(orderId, userEmail);
+                }
             }
         }
         public void RecalculateTotal(int orderId, string userEmail)
         {
             var order = appDbContext.Orders.Include(o => o.OrderItems).FirstOrDefault(o => o.Id == orderId);
             var user = appDbContext.Users.FirstOrDefault(u => u.Email == userEmail);
-            if (order == null) return;
+            if (order == null) 
+            {
+                return;
+            }
 
             decimal baseSum = order.OrderItems.Sum(oi => oi.Price * oi.Quantity);
-            if (baseSum == 0) { order.TotalAmount = 0; appDbContext.SaveChanges(); return; }
+            var calculator = new DiscountCalculator();
+            order.TotalAmount = calculator.CalculateFinalPrice(baseSum, user);
 
-            Product summaryProduct = new Product { Price = baseSum };
-            IDiscountDecorator processor = new ProductBaseDecorator(summaryProduct);
-
-            if (DateTime.Now.DayOfWeek == DayOfWeek.Saturday || DateTime.Now.DayOfWeek == DayOfWeek.Sunday) 
-            {
-                processor = new HolidayDiscountDecorator(processor);
-            }
-
-
-            if (user != null && user.Role == UserRole.Admin) 
-            {
-                processor = new LoyaltyDiscountDecorator(processor);
-            }
-
-            processor = new BulkDiscountDecorator(processor);
-
-            order.TotalAmount = processor.GetPrice();
             appDbContext.SaveChanges();
         }
         public void ProcessPayment(string currentUserEmail, string formEmail, string postOfficeNumber)
         {
             var customer = appDbContext.Users.FirstOrDefault(u => u.Email == formEmail);
-            if (customer == null)
+            if (customer == null) 
             {
                 throw new Exception("Помилка: Користувача з таким Email не знайдено.");
             }
@@ -184,11 +164,12 @@ namespace BuildingStore.Services.BusinessLogic
 
             foreach (var item in order.OrderItems)
             {
-                var state = GetState(item.ProductStatus);
-                state.Pay(item);
+                var itemContext = new OrderItemContext(item);
+                itemContext.Pay();
             }
 
             appDbContext.SaveChanges();
+            Notify(order);
         }
     }
 }

@@ -23,7 +23,7 @@ namespace BuildingStore.Services.Patterns.Bridge
                 foreach (var item in order.OrderItems)
                 {
                     var name = item.Product?.Name ?? "Товар";
-                    var price = item.Product?.Price ?? 0;
+                    var price = item?.Price ?? 0;
                     sb.AppendLine($"- {name} — {item.Quantity} шт. x {price:N0} ₴");
                 }
             }

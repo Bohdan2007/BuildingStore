@@ -30,5 +30,9 @@ namespace BuildingStore.Services.Patterns.Proxy.CachingProxy
 
             return products;
         }
+        public static void ResetCache()
+        {
+            cache.Clear();
+        }
     }
 }

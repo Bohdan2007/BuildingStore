@@ -1,4 +1,4 @@
-﻿@model Tuple<BuildingStore.Models.Product, List<BuildingStore.Models.Category>>
+﻿@model Tuple<BuildingStore.Models.Product, List<BuildingStore.Models.Category>, string>
 
 <!DOCTYPE html>
 <html lang="ua">
@@ -13,7 +13,7 @@
     <div class="admin-container">
 
         <header class="header">
-            <a href="/User/AdminProfile" class="btn-back">Назад до панелі</a>
+            <a href="/User/AdminProfile?email=@Model.Item3" class="btn-back">Назад до панелі</a>
             <h1 class="title">Новий товар</h1>
         </header>
 
@@ -31,6 +31,8 @@
             }
 
             <form asp-controller="Products" asp-action="AddProduct" method="post" enctype="multipart/form-data" class="product-form">
+
+                <input type="hidden" name="adminEmail" value="@Model.Item3" />
 
                 <div class="input-group">
                     <label>Назва товару</label>

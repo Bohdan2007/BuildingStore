@@ -18,6 +18,7 @@ namespace BuildingStore.Controllers
         {
             string email = basketService.GetUserEmail(User);
             var order = basketService.GetOrCreateBasketOrder(email);
+
             return View(order);
         }
         [HttpPost]
@@ -39,6 +40,7 @@ namespace BuildingStore.Controllers
         {
             string email = basketService.GetUserEmail(User);
             basketService.ChangeQuantity(itemId, 1, email);
+
             return RedirectToAction("Basket");
         }
         [HttpPost]
@@ -46,6 +48,7 @@ namespace BuildingStore.Controllers
         {
             string email = basketService.GetUserEmail(User);
             basketService.ChangeQuantity(itemId, -1, email);
+
             return RedirectToAction("Basket");
         }
 
@@ -61,6 +64,7 @@ namespace BuildingStore.Controllers
             {
                 TempData["ErrorMessage"] = ex.Message;
             }
+
             return RedirectToAction("Basket");
         }
 

@@ -27,6 +27,11 @@ namespace BuildingStore.Controllers
         [HttpGet]
         public IActionResult AdminProfile(string email)
         {
+            if (string.IsNullOrEmpty(email))
+            {
+                return RedirectToAction("SignIn", "Authorization");
+            }
+
             User user = userService.FindAdmin(email);
 
             return View(user);

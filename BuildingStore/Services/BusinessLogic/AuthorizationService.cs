@@ -1,77 +1,81 @@
-﻿using BuildingStore.Models;
+﻿    using BuildingStore.Models;
 
-namespace BuildingStore.Services.BusinessLogic
-{
-    public class AuthorizationService
+    namespace BuildingStore.Services.BusinessLogic
     {
-        private readonly AppDbContext appDbContext;
-
-        public AuthorizationService(AppDbContext appDbContext)
+        public class AuthorizationService
         {
-            this.appDbContext = appDbContext;
-        }
+            private readonly AppDbContext appDbContext;
 
-        public bool SignIn(string email, string password)
-        {
-            if (email == null || password == null)
+            public AuthorizationService(AppDbContext appDbContext)
             {
-                return false;
+                this.appDbContext = appDbContext;
             }
+
+            public bool SignIn(string email, string password)
+            {
+                if (email == null || password == null)
+                {
+                    return false;
+                }
             
-            var existUser = appDbContext.Users.FirstOrDefault(u => u.Email == email);
-            if (existUser == null || existUser.Password != HashPassword(password))
-            {
-                return false;
+                var existUser = appDbContext.Users.FirstOrDefault(u => u.Email == email);
+                if (existUser == null || existUser.Password != HashPassword(password))
+                {
+                    return false;
+                }
+
+                return true;
             }
-
-            return true;
-        }
-        public bool SignUp(string name, string email, string password, string passwordVerification)
-        {
-            if (name == null || email == null || password == null || passwordVerification == null)
+            public bool SignUp(string name, string email, string password, string passwordVerification)
             {
-                return false;
-            }
+                if (name == null || email == null || password == null || passwordVerification == null)
+                {
+                    return false;
+                }
 
-            var existUser = appDbContext.Users.FirstOrDefault(u => u.Email == email);
-            if (existUser != null || password != passwordVerification)
+                var existUser = appDbContext.Users.FirstOrDefault(u => u.Email == email);
+                if (existUser != null || password != passwordVerification)
+                {
+                    return false;
+                }
+
+                appDbContext.Users.Add(new User
+                {
+                    Name = name,
+                    Email = email,
+                    Password = HashPassword(password),
+                    Role = UserRole.User
+                });
+                appDbContext.SaveChanges();
+
+                return true;
+            }
+            public bool IsSignIn(string email)
             {
-                return false;
+                return appDbContext.Users.Any(u => u.Email == email);
             }
-            
-            User user = new User { Name = name, Email = email, Password = HashPassword(password), Role = UserRole.User };
-
-            appDbContext.Users.Add(user);
-            appDbContext.SaveChanges();
-
-            return true;
-        }
-        public bool IsSignIn(string email)
-        {
-            return appDbContext.Users.Any(u => u.Email == email);
-        }
-        private string HashPassword(string password)
-        {
-            long hashCode = 0L;
-
-            for (int i = 0; i < password.Length; i++)
+            private string HashPassword(string password)
             {
-                hashCode += (password[i] * 31) * i * i;
+                long hashCode = 0L;
+
+                for (int i = 0; i < password.Length; i++)
+                {
+                    hashCode += (password[i] * 31) * i * i;
+                }
+
+                byte numberConvert = 16;
+                char[] arrayConvert = { 'A', 'v', '@', '1', '~', '&', 'о', 'f', 'м', ')', '-', 'К', '$', 'q', '#', '3' };
+                string hashPassword = "";
+                byte index = 0;
+
+                for (byte i = 0; i < numberConvert; i++)
+                {
+                    index = (byte)(hashCode % numberConvert);
+                    hashPassword += arrayConvert[index];
+                    hashCode = hashCode - ((numberConvert - i) * (numberConvert - i));
+                }
+
+                return hashPassword;
             }
-
-            byte numberConvert = 16;
-            char[] arrayConvert = { 'A', 'v', '@', '1', '~', '&', 'о', 'f', 'м', ')', '-', 'К', '$', 'q', '#', '3' };
-            string hashPassword = "";
-            byte index = 0;
-
-            for (byte i = 0; i < numberConvert; i++)
-            {
-                index = (byte)(hashCode % numberConvert);
-                hashPassword += arrayConvert[index];
-                hashCode = hashCode - ((numberConvert - i) * (numberConvert - i));
-            }
-
-            return hashPassword;
         }
     }
-}

@@ -1,14 +1,22 @@
 ﻿using BuildingStore.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace BuildingStore.Services.Patterns.State
 {
-    public class ProcessingState : IOrderItemState
+    public class ProcessingState : OrderItemState
     {
-        public void Cancel(OrderItem item) => throw new InvalidOperationException("Товар вже оплачено і комплектується, відмова неможлива.");
-        public void Pay(OrderItem item) => throw new InvalidOperationException("Цей товар вже оплачено.");
-        public void Complete(OrderItem item)
+        public override bool Cancel()
         {
-            item.ProductStatus = ProductStatus.Completed;
+            return false;
+        }
+        public override bool Pay()
+        {
+            return false;
+        }
+        public override bool Complete()
+        {
+            context.TransitionTo(new CompletedState(), ProductStatus.Completed);
+            return true;
         }
     }
 }

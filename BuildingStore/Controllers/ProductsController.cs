@@ -40,14 +40,16 @@ namespace BuildingStore.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddProduct()
+        public IActionResult AddProduct(string adminEmail)
         {
-            var model = Tuple.Create(new Product(), productService.GetCategories());
+            var categories = productService.GetCategories();
+
+            var model = new Tuple<Product, List<Category>, string>(new Product(), categories, adminEmail);
             return View(model);
         }
 
         [HttpPost]
-        public IActionResult AddProduct(Product product, IFormFile photo)
+        public IActionResult AddProduct(Product product, IFormFile photo, string adminEmail) 
         {
             ModelState.Remove("Photo");
             ModelState.Remove("Category");
@@ -75,17 +77,17 @@ namespace BuildingStore.Controllers
 
             if (!ModelState.IsValid)
             {
-                var model = Tuple.Create(product, productService.GetCategories());
+                var model = new Tuple<Product, List<Category>, string>(product, productService.GetCategories(), adminEmail);
                 return View(model);
             }
 
             productService.CreateProduct(product, photo);
 
-            return RedirectToAction("Products");
+            return RedirectToAction("AdminProfile", "User", new { email = adminEmail });
         }
 
         [HttpGet]
-        public IActionResult DeleteProduct(string searchName, int? categoryId)
+        public IActionResult DeleteProduct(string searchName, int? categoryId, string adminEmail)
         {
             List<Product> products = new List<Product>();
 
@@ -95,16 +97,17 @@ namespace BuildingStore.Controllers
             }
 
             var categories = productService.GetCategories();
-            var model = Tuple.Create(products, categories, searchName, categoryId);
+            var model = new Tuple<List<Product>, List<Category>, string, int?, string>(products, categories, searchName, categoryId, adminEmail);
 
             return View(model);
         }
+
         [HttpPost]
-        public IActionResult ConfirmDelete(int id)
+        public IActionResult ConfirmDelete(int id, string adminEmail)
         {
             productService.DeleteProduct(id);
 
-            return RedirectToAction("DeleteProduct");
+            return RedirectToAction("DeleteProduct", new { adminEmail = adminEmail });
         }
     }
 }

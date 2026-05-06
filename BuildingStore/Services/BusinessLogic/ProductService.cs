@@ -1,6 +1,7 @@
 ﻿using BuildingStore.Models;
 using BuildingStore.Services.Patterns.FactoryMethod;
 using BuildingStore.Services.Patterns.Strategy;
+using BuildingStore.Services.Patterns.Proxy.CachingProxy; 
 using Microsoft.EntityFrameworkCore;
 
 namespace BuildingStore.Services.BusinessLogic
@@ -9,11 +10,13 @@ namespace BuildingStore.Services.BusinessLogic
     {
         private readonly AppDbContext appDbContext;
         private readonly IWebHostEnvironment webHostEnvironment;
+        private readonly ICategoryLoaderProxy categoryProxy; 
 
         public ProductService(AppDbContext appDbContext, IWebHostEnvironment webHostEnvironment)
         {
             this.appDbContext = appDbContext;
             this.webHostEnvironment = webHostEnvironment;
+            categoryProxy = new CachingCategoryProxy(new RealCategoryLoaderProxy());
         }
 
         public List<Category> GetCategories()
@@ -22,58 +25,34 @@ namespace BuildingStore.Services.BusinessLogic
         }
         public List<Product> FindProducts(string searchName, int? categoryId)
         {
-            CategoryProduct factory = GetCategoryFactory(categoryId);
+            EnumCategories categoryEnum;
 
-            var baseProducts = factory.GetProducts(appDbContext);
-            var searchContext = new ProductSearchContext();
-            bool hasName = !string.IsNullOrWhiteSpace(searchName);
-            bool hasCategory = categoryId.HasValue && categoryId > 0;
-
-            if (hasName && hasCategory)
+            if (categoryId.HasValue && categoryId.Value > 0)
             {
-                searchContext.SetStrategy(new CombinedSearchStrategy());
-            }
-            else if (hasName)
-            {
-                searchContext.SetStrategy(new SearchByNameStrategy());
-            }
-            else if (hasCategory)
-            {
-                searchContext.SetStrategy(new SearchByCategoryStrategy());
+                categoryEnum = (EnumCategories)categoryId.Value;
             }
             else
             {
-                searchContext.SetStrategy(new DefaultSearchStrategy());
+                categoryEnum = EnumCategories.All;
             }
 
+            var baseProducts = categoryProxy.LoadProducts(appDbContext, categoryEnum);
+            var searchContext = new ProductSearchContext(searchName, categoryId);
+
             return searchContext.ExecuteSearch(baseProducts, searchName, categoryId);
-        }
-        private CategoryProduct GetCategoryFactory(int? categoryId)
-        {
-            switch (categoryId)
-            {
-                case (byte)EnumCategories.Tools:
-                    return new ToolsCategoryProduct();
-                case (byte)EnumCategories.Materials:
-                    return new MaterialsCategoryProduct();
-                case (byte)EnumCategories.Plumbing:
-                    return new PlumbingCategoryProduct();
-                case (byte)EnumCategories.Electrical:
-                    return new ElectricalCategoryProduct();
-                case (byte)EnumCategories.Roofing:
-                    return new RoofingCategoryProduct();
-                default:
-                    return new AllProducts();
-            }
         }
         public Product GetProductDetails(int id)
         {
             var product = appDbContext.Products.AsNoTracking().Include(p => p.Reviews).FirstOrDefault(p => p.Id == id);
 
-            if (product == null) return null;
+            if (product == null) 
+            {
+                return null;
+            }
 
-            var factory = GetCategoryFactory(product.CategoryId);
-            var processedProduct = factory.GetProducts(appDbContext).FirstOrDefault(p => p.Id == id);
+            EnumCategories categoryEnum = (EnumCategories)product.CategoryId;
+            var processedProducts = categoryProxy.LoadProducts(appDbContext, categoryEnum);
+            var processedProduct = processedProducts.FirstOrDefault(p => p.Id == id);
 
             if (processedProduct != null)
             {
@@ -107,7 +86,7 @@ namespace BuildingStore.Services.BusinessLogic
 
             using (var fileStream = new FileStream(filePath, FileMode.Create))
             {
-                photo.CopyTo(fileStream); 
+                photo.CopyTo(fileStream);
             }
 
             product.Photo = uniqueFileName;
@@ -116,6 +95,8 @@ namespace BuildingStore.Services.BusinessLogic
 
             appDbContext.Products.Add(product);
             appDbContext.SaveChanges();
+
+            CachingCategoryProxy.ResetCache();
         }
         public bool IsPriceValid(decimal price)
         {
@@ -123,14 +104,18 @@ namespace BuildingStore.Services.BusinessLogic
         }
         public bool IsProductNameUnique(string name)
         {
-            if (string.IsNullOrWhiteSpace(name)) return true;
+            if (string.IsNullOrWhiteSpace(name)) 
+            {
+                return true;
+            }
+
             return !appDbContext.Products.Any(p => p.Name.ToLower() == name.ToLower());
         }
         public void DeleteProduct(int id)
         {
             var product = appDbContext.Products.FirstOrDefault(p => p.Id == id);
 
-            if (product != null) 
+            if (product != null)
             {
                 if (!string.IsNullOrEmpty(product.Photo))
                 {
@@ -143,6 +128,8 @@ namespace BuildingStore.Services.BusinessLogic
 
                 appDbContext.Products.Remove(product);
                 appDbContext.SaveChanges();
+
+                CachingCategoryProxy.ResetCache();
             }
         }
     }

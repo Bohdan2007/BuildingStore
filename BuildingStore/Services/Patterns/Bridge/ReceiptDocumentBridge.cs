@@ -24,12 +24,12 @@ namespace BuildingStore.Services.Patterns.Bridge
                 {
                     var name = item.Product?.Name ?? "Товар";
                     var price = item.Product?.Price ?? 0;
-                    sb.AppendLine($"- {name} — {item.Quantity} шт. x {price:N2} ₴");
+                    sb.AppendLine($"- {name} — {item.Quantity} шт. x {price:N0} ₴");
                 }
             }
 
             sb.AppendLine("--------------------------------------------------");
-            sb.AppendLine($"Загальна сума: {order.TotalAmount:N2} ₴");
+            sb.AppendLine($"Загальна сума: {order.TotalAmount:N0} ₴");
 
             sender.Deliver(sb.ToString(), email);
         }

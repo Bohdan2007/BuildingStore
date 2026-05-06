@@ -7,27 +7,27 @@ namespace BuildingStore.Services.Patterns.Proxy.CachingProxy
     {
         public List<Product> LoadProducts(AppDbContext db, EnumCategories category)
         {
-            CategoryFactory factory = null;
+            CategoryProduct factory = null;
 
             switch (category)
             {
                 case EnumCategories.Tools:
-                    factory = new ToolsCategoryFactory();
+                    factory = new ToolsCategoryProduct();
                     break;
                 case EnumCategories.Materials:
-                    factory = new MaterialsCategoryFactory();
+                    factory = new MaterialsCategoryProduct();
                     break;
                 case EnumCategories.Plumbing:
-                    factory = new PlumbingCategoryFactory();
+                    factory = new PlumbingCategoryProduct();
                     break;
                 case EnumCategories.Electrical:
-                    factory = new ElectricalCategoryFactory();
+                    factory = new ElectricalCategoryProduct();
                     break;
                 case EnumCategories.Roofing:
-                    factory = new RoofingCategoryFactory();
+                    factory = new RoofingCategoryProduct();
                     break;
                 default:
-                factory = null;
+                factory = new AllProducts();
                     break;
             }
 

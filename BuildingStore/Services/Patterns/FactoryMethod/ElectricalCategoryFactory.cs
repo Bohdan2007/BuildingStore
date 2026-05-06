@@ -1,21 +1,10 @@
-﻿using BuildingStore.Models;
-using Microsoft.EntityFrameworkCore;
-
-namespace BuildingStore.Services.Patterns.FactoryMethod
+﻿namespace BuildingStore.Services.Patterns.FactoryMethod
 {
     public class ElectricalCategoryFactory : CategoryFactory
     {
-        public override List<Product> GetProducts(AppDbContext db)
+        public override CategoryProduct CreateProduct() 
         {
-            var products = db.Products.AsNoTracking().Where(p => p.CategoryId == (byte)EnumCategories.Electrical).ToList();
-            foreach (var p in products)
-            {
-                p.Price *= 1.10m; 
-            }
-
-            ApplyBadge(products, "Включає повне страхування");
-
-            return products;
+            return new ElectricalCategoryProduct();
         }
     }
 }

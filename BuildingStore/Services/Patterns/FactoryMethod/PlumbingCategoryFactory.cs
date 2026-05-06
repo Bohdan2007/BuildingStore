@@ -1,16 +1,10 @@
-﻿using BuildingStore.Models;
-
-namespace BuildingStore.Services.Patterns.FactoryMethod
+﻿namespace BuildingStore.Services.Patterns.FactoryMethod
 {
     public class PlumbingCategoryFactory : CategoryFactory
     {
-        public override List<Product> GetProducts(AppDbContext db)
+        public override CategoryProduct CreateProduct() 
         {
-            var products = db.Products.Where(p => p.CategoryId == (byte)EnumCategories.Plumbing).ToList();
-
-            ApplyBadge(products, "+ Інструкція з монтажу у подарунок");
-
-            return products;
+            return new PlumbingCategoryProduct();
         }
     }
 }

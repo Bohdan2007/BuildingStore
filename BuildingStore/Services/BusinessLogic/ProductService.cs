@@ -22,7 +22,7 @@ namespace BuildingStore.Services.BusinessLogic
         }
         public List<Product> FindProducts(string searchName, int? categoryId)
         {
-            CategoryFactory factory = GetCategoryFactory(categoryId);
+            CategoryProduct factory = GetCategoryFactory(categoryId);
 
             var baseProducts = factory.GetProducts(appDbContext);
             var searchContext = new ProductSearchContext();
@@ -48,22 +48,22 @@ namespace BuildingStore.Services.BusinessLogic
 
             return searchContext.ExecuteSearch(baseProducts, searchName, categoryId);
         }
-        private CategoryFactory GetCategoryFactory(int? categoryId)
+        private CategoryProduct GetCategoryFactory(int? categoryId)
         {
             switch (categoryId)
             {
                 case (byte)EnumCategories.Tools:
-                    return new ToolsCategoryFactory();
+                    return new ToolsCategoryProduct();
                 case (byte)EnumCategories.Materials:
-                    return new MaterialsCategoryFactory();
+                    return new MaterialsCategoryProduct();
                 case (byte)EnumCategories.Plumbing:
-                    return new PlumbingCategoryFactory();
+                    return new PlumbingCategoryProduct();
                 case (byte)EnumCategories.Electrical:
-                    return new ElectricalCategoryFactory();
+                    return new ElectricalCategoryProduct();
                 case (byte)EnumCategories.Roofing:
-                    return new RoofingCategoryFactory();
+                    return new RoofingCategoryProduct();
                 default:
-                    return new AllProductsFactory();
+                    return new AllProducts();
             }
         }
         public Product GetProductDetails(int id)
